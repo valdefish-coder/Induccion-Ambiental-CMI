@@ -1163,7 +1163,7 @@ qStart();
 /* ===== certificado y trazabilidad ===== */
 var CORREO_DESTINO='cesar.suarez@somoscmi.com';
 /* Dirección de la aplicación web de Apps Script (termina en /exec). Péguela aquí o use ?envio=DIRECCIÓN en el enlace. */
-var WEBHOOK_URL='';
+var WEBHOOK_URL='https://script.google.com/macros/s/AKfycbz_hnJUAg9MH8MX2gora8Uww8qMNSvwaaAKzg-001XV-QXG3tQioHCdw5xbTqUrbpL3/exec';
 try{var _q=(location.search.match(/[?&]envio=([^&]+)/)||[])[1];if(_q)WEBHOOK_URL=decodeURIComponent(_q)}catch(e){}
 var intento=0;
 function certHtml(r,qr){return '<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Certificado '+esc(r.cod)+'</title><style>body{font-family:system-ui,Arial,sans-serif;max-width:640px;margin:20px auto;padding:20px;border:4px double #1b7a4b;border-radius:16px;text-align:center}table{width:100%;text-align:left;border-collapse:collapse}td{padding:5px;border-bottom:1px solid #ccc}td:first-child{color:#555;width:36%}.q{width:200px;margin:12px auto}.c{font:700 17px monospace;background:#eef3ef;padding:8px;border-radius:8px;word-break:break-all}</style></head><body><div style="font-size:48px">🌿</div><h2>Certificado de Inducción Ambiental CMI</h2><p>Parques eólicos y solares</p><h1>'+esc(r.nom)+'</h1>'+certTable(r)+'<div class="q">'+qr+'</div><p>Código de trazabilidad</p><div class="c">'+esc(r.cod)+'</div><p>Verificación: '+r.ver+'</p></body></html>';}
