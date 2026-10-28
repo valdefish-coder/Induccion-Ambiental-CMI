@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Inducción Ambiental CMI · Parques eólicos y solares</title>
+<style>
+:root{--bg:#f3f6f2;--sf:#ffffff;--sf2:#e8f0ea;--ink:#14231b;--mut:#566a5f;--pri:#1b7a4b;--prii:#ffffff;--acc:#c46a12;--accb:#fff0dc;--dng:#b83227;--dngb:#fde9e6;--blu:#1d6fa5;--blub:#e3f1fa;--bd:#d3dfd7;--sky1:#a9dcf3;--sky2:#e6f5fb;--gnd:#6fb07f;--gnd2:#4f9564;--sun:#f5b932;--c-rojo:#c0392b;--c-naranja:#d9822b;--c-azul:#2a6fb5;--c-gris:#7d8a93;--c-verde:#2e8b57;--c-cafe:#7a5233;--c-negro:#333333;--c-amarillo:#d4a800;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1814;--sf:#16251f;--sf2:#1d3128;--ink:#e7f0ea;--mut:#9db3a6;--pri:#4fd18b;--prii:#07251a;--acc:#f0a254;--accb:#3a2a14;--dng:#ff8a7c;--dngb:#3b1d19;--blu:#6bb8ea;--blub:#142a3a;--bd:#2c4439;--sky1:#17344a;--sky2:#2a4f66;--gnd:#2f6b45;--gnd2:#245536;--sun:#f0cf6a}}
+:root[data-theme="dark"]{--bg:#0e1814;--sf:#16251f;--sf2:#1d3128;--ink:#e7f0ea;--mut:#9db3a6;--pri:#4fd18b;--prii:#07251a;--acc:#f0a254;--accb:#3a2a14;--dng:#ff8a7c;--dngb:#3b1d19;--blu:#6bb8ea;--blub:#142a3a;--bd:#2c4439;--sky1:#17344a;--sky2:#2a4f66;--gnd:#2f6b45;--gnd2:#245536;--sun:#f0cf6a}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+html,body{height:100%;margin:0}
+body{display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit;cursor:pointer}
+.top{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--sf);border-bottom:1px solid var(--bd);position:relative;flex:none}
+.top .t{font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .c{color:var(--mut);font-size:14px}
+.icb{border:1px solid var(--bd);background:var(--sf2);border-radius:10px;width:42px;height:42px;font-size:20px;line-height:1}
+.pbar{position:absolute;left:0;bottom:-1px;height:3px;background:var(--pri);width:0;transition:width .4s}
+main{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.nav{display:flex;gap:10px;padding:10px 12px;background:var(--sf);border-top:1px solid var(--bd);flex:none}
+.nav button{flex:1;padding:13px;border-radius:12px;border:1px solid var(--bd);background:var(--sf2);font-weight:700}
+.nav button.pri,.btn.pri{background:var(--pri);color:var(--prii);border-color:var(--pri)}
+.nav button:disabled{opacity:.4}
+.slide{display:none;padding:18px 16px 40px;max-width:840px;margin:0 auto}
+.slide.on{display:block;animation:fin .35s ease both}
+h1{font-size:30px;line-height:1.15;margin:.2em 0}
+h2{font-size:25px;line-height:1.2;margin:.1em 0 .3em}
+h3{font-size:19px;margin:.2em 0 .3em}
+.lead{color:var(--mut);font-size:18px;margin:.2em 0 1em}
+.kick{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--pri);background:var(--sf2);padding:3px 10px;border-radius:99px}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.say{border:1px solid var(--bd);background:var(--sf2);border-radius:99px;padding:6px 12px;font-size:14px;font-weight:700}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:14px;margin:10px 0}
+.card p{margin:.3em 0}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.btn{border:1px solid var(--bd);background:var(--sf2);border-radius:12px;padding:12px 16px;font-weight:700}
+.tile{display:flex;align-items:center;gap:8px;text-align:left;border:1px solid var(--bd);background:var(--sf);border-radius:12px;padding:10px;font-size:15px;font-weight:700}
+.tile b{font-size:24px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{border:1px solid var(--bd);background:var(--sf);border-radius:99px;padding:8px 14px;font-size:15px;font-weight:700}
+.chip.sel{background:var(--pri);color:var(--prii);border-color:var(--pri)}
+details.card summary{cursor:pointer;font-weight:700;list-style:none;display:flex;gap:10px;align-items:center}
+details.card summary::-webkit-details-marker{display:none}
+details.card summary::after{content:"＋";margin-left:auto;color:var(--mut)}
+details.card[open] summary::after{content:"－"}
+.tag{display:inline-block;font-size:12px;font-weight:800;padding:2px 8px;border-radius:99px;background:var(--blub);color:var(--blu)}
+.tag.o{background:var(--accb);color:var(--acc)}.tag.g{background:var(--sf2);color:var(--pri)}
+.call{border-radius:14px;padding:14px;margin:12px 0;border:1px solid var(--acc);background:var(--accb)}
+.call.red{border-color:var(--dng);background:var(--dngb)}
+.call.grn{border-color:var(--pri);background:var(--sf2)}
+svg{max-width:100%;height:auto;display:block}
+.hero{border-radius:16px;overflow:hidden;border:1px solid var(--bd);margin-bottom:12px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0}
+.flow span{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:6px 10px;font-weight:700;font-size:14px;animation:glow 6s infinite}
+.flow span:nth-child(3){animation-delay:1.5s}.flow span:nth-child(5){animation-delay:3s}.flow span:nth-child(7){animation-delay:4.5s}
+.flow i{color:var(--mut);font-style:normal}
+.steps{counter-reset:s;margin:10px 0;padding:0;list-style:none}
+.steps li{counter-increment:s;position:relative;background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:12px 12px 12px 56px;margin:9px 0}
+.steps li::before{content:counter(s);position:absolute;left:12px;top:12px;width:34px;height:34px;border-radius:50%;background:var(--pri);color:var(--prii);display:grid;place-items:center;font-weight:800}
+.steps li b{display:block}
+.steps.par li::before{background:var(--acc)}
+.par2{display:grid;grid-template-columns:1fr;gap:12px}
+.pyr{display:flex;flex-direction:column;align-items:center;gap:5px;margin:10px 0}
+.pyr div{padding:8px 6px;text-align:center;font-weight:700;font-size:14px;border-radius:8px;color:var(--prii);background:var(--pri);animation:grow .7s both}
+.stag>*{animation:rise .5s both;animation-delay:calc(var(--i,0)*70ms)}
+.rot{animation:spin 9s linear infinite;transform-origin:0 0}
+.pulse{animation:pls 2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.blink{animation:blk 1s steps(2) infinite}
+.drift{animation:drf 24s linear infinite alternate}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pls{50%{transform:scale(1.25);opacity:.75}}
+@keyframes blk{50%{opacity:.2}}
+@keyframes blk2{0%{opacity:0}50%{opacity:.5}100%{opacity:0}}
+@keyframes drf{to{transform:translateX(70px)}}
+@keyframes fin{from{opacity:0}to{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes grow{from{opacity:0;transform:scaleX(.3)}to{opacity:1;transform:none}}
+@keyframes glow{0%,20%,100%{background:var(--sf)}8%{background:var(--sf2);border-color:var(--pri)}}
+@keyframes ring{from{transform:scale(.3);opacity:.8}to{transform:scale(5);opacity:0}}
+@keyframes swp{0%,100%{transform:translate(0,0)}50%{transform:translate(26px,6px)}}
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--bd);background:var(--sf);border-radius:12px;padding:13px;margin:8px 0;font-weight:500;font-size:17px}
+.opt.ok{border-color:var(--pri);background:var(--sf2)}
+.opt.no{border-color:var(--dng);background:var(--dngb)}
+.opt:disabled{opacity:1}
+.big{font-size:56px;text-align:center;margin:6px 0}
+.fb{border-radius:12px;padding:10px 12px;margin:8px 0;font-size:16px}
+.fb.ok{background:var(--sf2);border:1px solid var(--pri)}.fb.no{background:var(--dngb);border:1px solid var(--dng)}
+.epp .it{border:2px solid var(--bd);background:var(--sf);border-radius:14px;padding:10px;text-align:center;font-size:14px;font-weight:700;transition:all .3s}
+.epp .it b{display:block;font-size:34px}
+.epp .it.need{border-color:var(--pri);background:var(--sf2);transform:scale(1.03)}
+.epp .it.skip{opacity:.35}
+.stop{display:flex;gap:12px;align-items:center;background:var(--dng);color:#fff;border-radius:14px;padding:12px 14px;font-weight:800;font-size:19px}
+.stop b{font-size:34px}
+.player{background:var(--sf);border:1px solid var(--bd);border-radius:14px;overflow:hidden;margin:10px 0}
+.player .cap{padding:10px 14px}
+.ctl{display:flex;gap:8px;align-items:center;padding:0 14px 12px}
+.ctl .btn{padding:8px 13px}
+.prog{flex:1;height:6px;border-radius:9px;background:var(--sf2);overflow:hidden}.prog i{display:block;height:100%;background:var(--pri);width:0;transition:width .5s}
+.vid .a0,.vid .a1,.vid .a2,.vid .a3,.vid .a4,.vid .a5{opacity:0;transition:opacity .6s}
+.vid.on0 .a0,.vid.on1 .a1,.vid.on2 .a2,.vid.on3 .a3,.vid.on4 .a4,.vid.on5 .a5{opacity:1}
+.vid .o1,.vid .o2,.vid .o3,.vid .o4,.vid .o5{transition:opacity .6s}
+.vid.on1 .o1,.vid.on2 .o2,.vid.on3 .o3,.vid.on4 .o4,.vid.on5 .o5{opacity:0}
+.vid .puddle{fill:#2b2118;opacity:.82;transform:scale(.15);transform-box:fill-box;transform-origin:center;transition:transform 3.5s ease-out,opacity 1s}
+.vid.on0 .puddle{transform:scale(1)}
+.vid.on3 .puddle{transform:scale(.55);opacity:.5}
+.vid.on4 .puddle{opacity:0}
+.vid .barrier{stroke-dasharray:6 4}
+.vid .mv{transition:transform 1.3s ease-in-out}
+.vid .shd{opacity:0}
+.vid.on1 .shd{animation:blk2 .8s linear infinite}
+.vid.on3 .shd{animation:none;opacity:0}
+.vid.on3 .rot.pz{animation-play-state:paused}
+.vid .ringc{fill:none;stroke:#fff;stroke-width:2;transform-box:fill-box;transform-origin:center;animation:ring 3s linear infinite;opacity:.7}
+.vid .swp{animation:swp 2s ease-in-out infinite}
+.dm .pud{fill:#2b2118;opacity:.8;transform:scale(.25);transform-box:fill-box;transform-origin:center;transition:transform 6s linear}
+.dm.go .pud{transform:scale(2.4)}
+.dm.held .pud{transform:scale(1.25);transition:transform .8s}
+.dm .brr{opacity:0;stroke-dasharray:8 5;transition:opacity .5s}
+.dm.held .brr{opacity:1}
+.drawer{position:absolute;inset:0;z-index:20;background:rgba(0,0,0,.45);display:none}
+.drawer.open{display:block}
+.drawer div{background:var(--sf);width:min(330px,86%);height:100%;overflow:auto;padding:14px;border-right:1px solid var(--bd)}
+.drawer button{display:block;width:100%;text-align:left;border:0;background:none;padding:12px 8px;border-radius:10px;font-size:16px}
+.drawer button.cur{background:var(--sf2);font-weight:700}
+.drawer button:disabled{opacity:.4}
+.cert{border:4px double var(--pri);border-radius:16px;padding:18px;text-align:center;background:var(--sf);margin:12px 0}
+.cert .qr{width:200px;max-width:70%;margin:10px auto;background:#fff;padding:8px;border-radius:8px}
+.cert .code{font:700 17px/1.3 ui-monospace,Menlo,Consolas,monospace;word-break:break-all;background:var(--sf2);border-radius:8px;padding:8px;margin:8px 0}
+.cert table{width:100%;text-align:left;border-collapse:collapse;font-size:15px}
+.cert td{padding:4px 6px;border-bottom:1px solid var(--bd);vertical-align:top}
+.cert td:first-child{color:var(--mut);width:36%}
+label{display:block;font-weight:700;margin:12px 0 4px}
+input[type=text],select,textarea{width:100%;padding:13px;border-radius:10px;border:1px solid var(--bd);background:var(--sf);color:var(--ink);font:inherit}
+.radios{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.radios label{margin:0;border:2px solid var(--bd);border-radius:12px;padding:12px;text-align:center;background:var(--sf);font-weight:700}
+.radios input{display:none}
+.radios label:has(input:checked){border-color:var(--pri);background:var(--sf2)}
+.err{color:var(--dng);font-weight:700;margin:8px 0}
+.small{font-size:14px;color:var(--mut)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.bins{display:grid;grid-template-columns:1fr;gap:10px}
+.bn{border-radius:14px;overflow:hidden;border:2px solid var(--bd);background:var(--sf)}
+.bn .bh{display:flex;align-items:center;gap:10px;padding:10px 12px;color:#fff;font-weight:800;font-size:18px}
+.bn .bh i{font-style:normal;font-size:28px}
+.bn .bb{padding:10px 12px}
+.bn .bb p{margin:.25em 0}
+.ex{display:inline-block;background:var(--sf2);border-radius:99px;padding:3px 10px;margin:3px 3px 3px 0;font-size:14.5px}
+.no{color:var(--dng)}
+.gb{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gb button{border:0;border-radius:12px;padding:14px 8px;color:#fff;font-weight:800;font-size:16px}
+.ibox{display:flex;gap:12px;align-items:flex-start}
+.ibox b.ic{font-size:30px;line-height:1.1}
+.db{height:26px;border-radius:6px;background:var(--pri);margin:3px 0;color:var(--prii);font-weight:800;font-size:13px;padding:3px 8px;white-space:nowrap}
+@media (min-width:640px){.par2{grid-template-columns:1fr 1fr}.bins{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media print{.top,.nav,.say,.noprint{display:none!important}body,main{display:block;height:auto;overflow:visible}.slide{display:none!important}.slide.on{display:block!important}}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+.pgt{flex-direction:column;align-items:center;text-align:center;padding:8px 4px;gap:4px}
+.lab{border:3px solid #222;border-radius:10px;padding:10px 12px;background:#fff;color:#111;max-width:440px;margin:10px auto}
+.lab .lrow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px dashed #bbb}
+.ln{background:var(--acc);color:#fff;border:0;border-radius:50%;width:28px;height:28px;font-weight:800;flex:none}
+</style>
+
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="skg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sky1)"/><stop offset="1" style="stop-color:var(--sky2)"/></linearGradient></defs></svg>
+<header class="top">
+  <button class="icb" id="menuBtn" aria-label="Abrir contenido">☰</button>
+  <div class="t">Inducción Ambiental CMI</div>
+  <div class="c" id="cnt">1 / 14</div>
+  <div class="pbar" id="bar"></div>
+</header>
+<div class="drawer" id="drawer"><div id="dlist"></div></div>
+<main id="main">
+<!-- 0 REGISTRO -->
+<section class="slide" id="registro" data-t="Registro" data-e="📝">
+  <div class="hero"><svg viewBox="0 0 360 200" role="img" aria-label="Aerogeneradores girando junto a paneles solares bajo el sol"><rect width="360" height="200" fill="url(#skg)"/><circle class="pulse" cx="312" cy="38" r="16" fill="var(--sun)"/><g class="drift" fill="#fff" opacity=".8"><ellipse cx="60" cy="40" rx="26" ry="9"/><ellipse cx="82" cy="34" rx="18" ry="8"/></g><path d="M0 150 Q90 120 180 145 T360 138 V200 H0Z" fill="var(--gnd2)"/><path d="M0 170 Q120 140 240 165 T360 160 V200 H0Z" fill="var(--gnd)"/><g id="cov-t"></g><g id="cov-s"></g></svg></div>
+  <span class="kick">Bienvenida</span>
+  <h1>Inducción Ambiental CMI</h1>
+  <p class="lead">Parques eólicos y solares · Costa Rica</p>
+  <div class="card">
+    <h3>Primero, sus datos</h3>
+    <p class="small">Sirven para registrar su inducción y emitir su certificado. Todos los campos son obligatorios. Al continuar, usted acepta que sus datos y su resultado se envíen al equipo de gestión ambiental de CMI para el registro de la inducción.</p>
+    <label for="f-nom">Nombre completo con apellidos</label>
+    <input type="text" id="f-nom" autocomplete="name" placeholder="Nombre y dos apellidos">
+    <label for="f-dt">Documento de identidad</label>
+    <select id="f-dt"><option value="Cédula">Cédula</option><option value="Pasaporte">Pasaporte</option></select>
+    <label for="f-id">Número de cédula o pasaporte</label>
+    <input type="text" id="f-id" autocomplete="off" placeholder="Ej.: 1-2345-6789">
+    <label for="f-emp">Empresa</label>
+    <select id="f-emp"><option value="">Elija una opción</option><option value="CMI">CMI</option><option value="otra">Otra empresa (contratista)</option></select>
+    <input type="text" id="f-emp2" placeholder="Nombre de la empresa" style="display:none;margin-top:8px">
+    <label>Tipo de proyecto</label>
+    <div class="radios"><label><input type="radio" name="tipo" value="Eólico">⚡ Eólico</label><label><input type="radio" name="tipo" value="Solar">☀️ Solar</label></div>
+    <label>Sede</label>
+    <div class="radios"><label><input type="radio" name="sede" value="Tilarán">📍 Tilarán</label><label><input type="radio" name="sede" value="Liberia">📍 Liberia</label></div>
+    <label for="f-pla">Planta</label>
+    <select id="f-pla" disabled><option value="">Elija primero el tipo y la sede</option></select>
+    <input type="text" id="f-pla2" placeholder="Nombre de la planta" style="display:none;margin-top:8px">
+    <div class="err" id="f-err" role="alert"></div>
+    <button class="btn pri" id="f-go" style="width:100%;margin-top:6px">Comenzar la inducción →</button>
+  </div>
+</section>
+
+<!-- 1 CONTENIDO -->
+<section class="slide" id="contenido" data-t="Cómo usar esta inducción" data-e="🧭">
+  <span class="kick">Empecemos</span>
+  <h2 id="hola">Bienvenido</h2>
+  <p class="lead">Esta inducción se explica con dibujos, videos animados y ejemplos. Está hecha para entenderse fácil.</p>
+  <div class="grid2 stag">
+    <div class="card ibox"><b class="ic">🔊</b><div><b>Escuchar</b><p class="small">Toque “Escuchar” en cada pantalla y el teléfono le lee el texto.</p></div></div>
+    <div class="card ibox"><b class="ic">🎬</b><div><b>Videos</b><p class="small">Toque ▶ o ⏸. Puede repetir las veces que quiera.</p></div></div>
+    <div class="card ibox"><b class="ic">👆</b><div><b>Toque y descubra</b><p class="small">Las tarjetas con ＋ se abren y muestran más.</p></div></div>
+    <div class="card ibox"><b class="ic">📝</b><div><b>Examen final</b><p class="small"><span id="qinfo"></span> obtiene su certificado con código QR.</p></div></div>
+  </div>
+  <h3>Temas</h3>
+  <div class="grid2 stag" id="toc"></div>
+</section>
+
+<!-- 2 ASPECTOS -->
+<section class="slide" id="aspectos" data-t="Aspectos e impactos" data-e="🔍">
+  <div class="hd"><span class="kick">Tema 1</span><button class="say" data-say>🔊 Escuchar</button></div>
+  <h2>Aspectos e impactos ambientales</h2>
+  <p class="lead">Todo trabajo deja huella en el ambiente. Si la conocemos, la podemos cuidar.</p>
+  <div class="flow"><span>🔧 Actividad</span><i>→</i><span>⚠️ Aspecto</span><i>→</i><span>🌎 Impacto</span><i>→</i><span>🛡️ Control</span></div>
+  <div class="card"><p><b>Aspecto:</b> lo que hacemos o usamos y que puede tocar el ambiente. Ejemplo: aceite de la turbina.</p><p><b>Impacto:</b> lo que le pasa al ambiente por eso. Ejemplo: suelo contaminado.</p><p><b>Control:</b> lo que hacemos para evitarlo. Ejemplo: kit antiderrames.</p></div>
+  <div class="chips" id="asp-chips"><button class="chip" data-k="eo">⚡ Eólico</button><button class="chip" data-k="so">☀️ Solar</button><button class="chip" data-k="co">🌐 En ambos</button></div>
+  <div id="asp-list" class="stag"></div>
+</section>
+
+<!-- 3 LEGISLACION -->
+<section class="slide" id="legislacion" data-t="Legislación aplicable" data-e="⚖️">
+  <div class="hd"><span class="kick">Tema 2</span><button class="say" data-say>🔊 Escuchar</button></div>
+  <h2>Las leyes y los parques</h2>
+  <p class="lead">Las leyes dicen qué debemos hacer en cada etapa del proyecto. Si no se cumplen, hay multas, paros de obra y daños al ambiente.</p>
+  <h3>Las leyes en cada etapa</h3>
+  <ol class="steps stag">
+    <li><b>🗺️ Antes de construir</b>El proyecto necesita viabilidad ambiental de SETENA. Se estudia el sitio, se definen compromisos y se prepara el Plan de Gestión Ambiental.</li>
+    <li><b>🏗️ Construcción</b>Se cuidan el suelo, el agua y la vegetación. Los residuos se manejan según la Ley 8839. Los árboles se cortan solo con permiso.</li>
+    <li><b>⚡☀️ Operación</b>Se vigilan fauna, ruido, efecto sombra y agua. Los residuos y derrames se atienden por protocolo.</li>
+    <li><b>🔚 Cierre</b>Se retiran equipos y residuos y se restaura el sitio.</li>
+  </ol>
+  <h3>Toque una ley para ver cómo le afecta</h3>
+  <div class="chips" id="leg-chips"></div>
+  <div id="leg-list"></div>
+  <p class="small">Resumen informativo. Consulte al equipo de Gestión Ambiental por actualizaciones y por los permisos propios de su proyecto.</p>
+</section>
+
+<!-- 4 RESIDUOS -->
+<section class="slide" id="residuos" data-t="Manejo de residuos" data-e="♻️">
+  <div class="hd"><span class="kick">Tema 3</span><button class="say" data-say>🔊 Escuchar</button></div>
+  <h2>Manejo de residuos</h2>
+  <p class="lead">Quien genera el residuo es responsable de él. Así lo dice la Ley 8839.</p>
+  <div class="card"><h3>¿Qué es mejor? Siga este orden</h3>
+    <div class="pyr"><div style="width:48%">1 · Evitar</div><div style="width:60%;animation-delay:.1s">2 · Reducir</div><div style="width:72%;animation-delay:.2s">3 · Reutilizar</div><div style="width:84%;animation-delay:.3s">4 · Reciclar</div><div style="width:96%;animation-delay:.4s;background:var(--mut)">5 · Desechar bien</div></div>
+    <p class="small">Lo mejor es no generar el residuo.</p></div>
+  <div class="call grn"><b>Su obligación:</b> clasificar el residuo desde la fuente, es decir, en el mismo lugar donde lo genera, y no mezclarlo.</div>
+  <h3>Cómo entregar sus residuos</h3>
+  <div class="chips"><button class="chip sel" data-k="p">☣️ Peligrosos</button><button class="chip" data-k="n">🗑️ No peligrosos</button></div>
+  <ol class="steps" id="res-steps"></ol>
+  <div class="call" id="res-note"></div>
+  <div class="grid2">
+    <div class="card"><b>🏷️ ¿Qué es rotular?</b><p class="small">Poner una etiqueta legible: qué residuo es, de qué área viene y la fecha. Si es peligroso, también el símbolo de peligro. Es obligatorio: Decreto 41527-S-MINAE para residuos peligrosos. Vea el tema de SGA.</p></div>
+    <div class="card"><b>⚖️ ¿Para qué se pesa?</b><p class="small">Para llevar el control de cuánto residuo se genera y saber si estamos mejorando.</p></div>
+    <div class="card"><b>🔒 ¿Qué es el marchamo?</b><p class="small">Un sello numerado que cierra el recipiente. Se coloca al final, para asegurarlo.</p></div>
+    <div class="card"><b>📱 ¿Por qué la app?</b><p class="small">Para que la entrega quede registrada y se pueda rastrear.</p></div>
+  </div>
+</section>
+
+<!-- 5 COLORES -->
+<section class="slide" id="colores" data-t="Clasificación y colores" data-e="🎨">
+  <div class="hd"><span class="kick">Tema 3 · Clasificación</span><button class="say" data-say>🔊 Escuchar</button></div>
+  <h2>¿Qué va en cada recipiente?</h2>
+  <p class="lead">La ley agrupa los residuos en tres: <b>ordinarios</b>, <b>de manejo especial</b> y <b>peligrosos</b>. Los colores nos ayudan a no equivocarnos.</p>
+  <div class="player-slot" data-v="clasif"></div>
+  <h3>Pregúntese en este orden</h3>
+  <ol class="steps stag">
+    <li><b>¿Tuvo contacto con aceite, grasa, combustible, pintura o químicos? ¿Es batería, lámpara o aerosol?</b>Sí → 🔴 <b style="display:inline">Rojo · Peligroso</b></li>
+    <li><b>¿Es llanta, equipo electrónico o similar?</b>Sí → 🟤 <b style="display:inline">Café · Manejo especial</b></li>
+    <li><b>¿Está limpio y seco y se puede reciclar?</b>Envase plástico o tetrabrik → 🔵 · Aluminio, latón o latas de conserva → 🟡 · Papel o cartón → ⚪ · Vidrio → 🟠</li>
+    <li><b>¿Son restos de comida o cáscaras?</b>Sí → 🟢 <b style="display:inline">Verde · Orgánico</b></li>
+    <li><b>¿Nada de lo anterior?</b>→ ⚫ <b style="display:inline">Negro · Ordinario</b></li>
+  </ol>
+  <h3>Los recipientes y sus ejemplos</h3>
+  <div class="bins stag" id="bins"></div>
+  <div class="call red"><b>📌 En nuestros parques:</b> aunque el residuo peligroso se identifica con el color rojo, no se deja en el recipiente. Se aplica el protocolo de manejo de residuos peligrosos: se entrega en el almacén (o al equipo de Medio Ambiente si no hay personal de almacén), clasificado, rotulado y pesado. Luego se coloca el marchamo y se registra la entrega en la app.</div>
+  <div class="call"><b>Importante:</b> la ley define las categorías: ordinarios, manejo especial y peligrosos. Los colores siguen el código de la Estrategia Nacional de Separación, Recuperación y Valorización de Residuos (basado en la norma INTE 12-01-08). Si en su planta hay un rótulo distinto, siga el rótulo y pregunte al equipo ambiental.</div>
+  <div class="card"><h3>☠️ ¿Cómo sé que es peligroso?</h3><p>Busque estos símbolos en la etiqueta del producto:</p>
+    <div class="grid3" style="text-align:center"><div class="card"><div class="big" style="font-size:40px">🔥</div>Inflamable</div><div class="card"><div class="big" style="font-size:40px">🧪</div>Corrosivo</div><div class="card"><div class="big" style="font-size:40px">💥</div>Explosivo o reactivo</div><div class="card"><div class="big" style="font-size:40px">☠️</div>Tóxico</div><div class="card"><div class="big" style="font-size:40px">🦠</div>Biológico</div></div>
+    <p class="small">Si no está seguro, trátelo como peligroso y pregunte al equipo ambiental.</p></div>
+  <div class="card"><h3>🔩 Chatarra de hierro y acero, cables y tarimas</h3><p>Se separan aparte. Pregunte al equipo ambiental dónde se acopian en su planta.</p></div>
+</section>
+
+<!-- 6 PRACTICA -->
+<section class="slide" id="practica" data-t="Practique: clasifique" data-e="🎯">
+  <span class="kick">Practique</span>
+  <h2>¿En qué recipiente va?</h2>
+  <p class="lead">Toque el color correcto para cada residuo.</p>
+  <div id="cl-box"></div>
+</section>
+
+<!-- SGA -->
+<section class="slide" id="sga" data-t="SGA y pictogramas" data-e="☣️">
+  <div class="hd"><span class="kick">Tema 4 · Productos químicos</span><button class="say" data-say>🔊 Escuchar</button></div>
+  <h2>El SGA: el idioma de las etiquetas</h2>
+  <p class="lead">SGA significa <b>Sistema Globalmente Armonizado</b> de Clasificación y Etiquetado de Productos Químicos, de las Naciones Unidas. Todos los países usan los mismos símbolos y palabras para avisar de los peligros.</p>
+  <div class="call red"><b>📜 Rotular es obligatorio.</b> En Costa Rica, el <b>Decreto Ejecutivo 40457-S (Reglamento Técnico RTCR 481:2015, Etiquetado de productos químicos peligrosos)</b> exige que todo producto químico peligroso tenga su etiqueta <b>en español</b>, con los elementos del SGA, entre ellos el <b>pictograma</b>. El <b>Decreto 40705-S (RTCR 478:2015)</b> regula su registro, importación y control. Los <b>residuos peligrosos</b> también se rotulan: lo exige el <b>Decreto 41527-S-MINAE</b>.<p class="small" style="margin:.5em 0 0">Son decretos ejecutivos (reglamentos), no leyes de la Asamblea, pero su cumplimiento es obligatorio.</p></div>
+  <div class="player-slot" data-v="sga"></div>
+  <h3>Los 9 pictogramas</h3>
+  <p class="small">Un rombo con borde rojo y un símbolo negro. Toque uno para ver qué significa.</p>
+  <div class="grid3" id="pg-grid" style="grid-template-columns:repeat(3,1fr)"></div>
+  <div class="card" id="pg-info" style="background:var(--sf2)"></div>
+  <h3>¿Cómo se lee una etiqueta?</h3>
+  <p class="small">Etiqueta de ejemplo. Toque los números.</p>
+  <div class="lab">
+    <div class="lrow"><b style="font-size:17px">SOLVENTE DE EJEMPLO</b><button class="ln" data-k="0">1</button></div>
+    <div class="lrow" id="lab-pg" style="justify-content:flex-start;gap:6px"></div>
+    <div class="lrow"><span><b style="color:#d0201a;font-size:20px">PELIGRO</b></span><button class="ln" data-k="2">3</button></div>
+    <div class="lrow"><span style="font-size:13px"><b>H225</b> Líquido y vapores muy inflamables.<br><b>H319</b> Provoca irritación ocular grave.</span><button class="ln" data-k="3">4</button></div>
+    <div class="lrow"><span style="font-size:13px"><b>P210</b> Mantener alejado del calor, chispas y llamas.<br><b>P280</b> Usar guantes y protección para los ojos.</span><button class="ln" data-k="4">5</button></div>
+    <div class="lrow" style="border:0"><span style="font-size:13px">Proveedor, dirección y teléfono de emergencia</span><button class="ln" data-k="5">6</button></div>
+  </div>
+  <div class="card" id="lab-info" style="background:var(--sf2)"></div>
+  <details class="card"><summary>📄 La hoja de seguridad (HDS o FDS) tiene 16 secciones</summary>
+    <p>Pídala al almacén o al equipo de gestión ambiental. Estas son las más útiles para usted:</p>
+    <p><span class="ex"><b>Sección 2</b> · Peligros</span><span class="ex"><b>Sección 4</b> · Primeros auxilios</span><span class="ex"><b>Sección 6</b> · Qué hacer si se derrama</span><span class="ex"><b>Sección 8</b> · EPP</span><span class="ex"><b>Sección 13</b> · Cómo desecharlo</span></p>
+    <p class="small">1 Identificación · 2 Peligros · 3 Composición · 4 Primeros auxilios · 5 Incendios · 6 Derrame accidental · 7 Manipulación y almacenamiento · 8 Controles y EPP · 9 Propiedades físicas · 10 Estabilidad · 11 Toxicología · 12 Información ecológica · 13 Eliminación · 14 Transporte · 15 Reglamentación · 16 Otra información.</p></details>
+    <div class="card"><h3>🚚 SGA y transporte: dos símbolos distintos</h3>
+    <p><b>SGA:</b> pictogramas en rombo con borde rojo. Van en la etiqueta del producto, para usarlo y guardarlo.</p>
+    <p><b>ONU:</b> placas de colores en rombo completo. Van en el camión y en los bultos, para transportarlo.</p>
+    <p>Los residuos peligrosos que generamos tienen su ficha de emergencia para el transporte. Véalas en el tema siguiente.</p></div>
+  <details class="card"><summary>🔤 Frases H (peligro) y P (prudencia) más comunes</summary>
+    <p><span class="ex"><b>H225</b> Líquido y vapores muy inflamables</span><span class="ex"><b>H226</b> Líquido y vapores inflamables</span><span class="ex"><b>H302</b> Nocivo si se ingiere</span><span class="ex"><b>H314</b> Provoca quemaduras graves en la piel y daños en los ojos</span><span class="ex"><b>H315</b> Irrita la piel</span><span class="ex"><b>H319</b> Irrita gravemente los ojos</span><span class="ex"><b>H336</b> Puede causar somnolencia o vértigo</span><span class="ex"><b>H410</b> Muy tóxico para la vida acuática, con efectos duraderos</span></p>
+    <p><span class="ex"><b>P210</b> Mantener alejado del calor, chispas y llamas</span><span class="ex"><b>P233</b> Mantener el envase bien cerrado</span><span class="ex"><b>P261</b> Evitar respirar los vapores</span><span class="ex"><b>P273</b> No dejar que llegue al ambiente</span><span class="ex"><b>P280</b> Usar guantes y protección para ojos y cara</span><span class="ex"><b>P501</b> Desechar según la normativa</span></p></details>
+  <div class="card"><h3>Qué hago yo</h3><ul style="margin:.3em 0;padding-left:20px"><li>Lea la etiqueta antes de usar un producto.</li><li>No use un envase sin etiqueta o con la etiqueta borrada. Avise.</li><li>No quite ni tape las etiquetas.</li><li>Si pasa el producto a otro envase, rotúlelo con el nombre y los pictogramas.</li><li>No reutilice envases para otro producto.</li><li>Los residuos de estos productos son residuos peligrosos y también se rotulan.</li></ul></div>
+  <h3>🎯 Practique: ¿qué significa?</h3>
+  <div id="pg-game"></div>
+</section>
+
+<!-- FICHAS DE EMERGENCIA -->
+<section class="slide" id="fichas" data-t="Fichas de emergencia de nuestros residuos" data-e="📋">
+  <div class="hd"><span class="kick">Tema 5 · Fichas de emergencia</span><button class="say" data-say>🔊 Escuchar</button></div>
+  <h2>Nuestros residuos peligrosos y sus fichas</h2>
+  <p class="lead">Para acopiar y transportar residuos peligrosos, el Ministerio de Salud y MINAE exigen una <b>ficha de emergencia</b> por cada tipo de residuo. Estas son las <b>15 fichas</b> de los residuos que generamos en los parques eólicos.</p>
+  <div class="card"><h3>📞 Si hay un accidente con un residuo peligroso</h3>
+    <ol class="steps" style="margin:6px 0">
+      <li><b>Llame al 9-1-1</b>Luego llame al teléfono de emergencias que aparece en los documentos de embarque.</li>
+      <li><b>Aleje a las personas</b>Mantenga lejos al personal no autorizado.</li>
+      <li><b>Ubíquese bien</b>Con el viento a favor, en zonas altas o corriente arriba.</li>
+      <li><b>Aísle el área</b>Como mínimo la distancia que dice la ficha de ese residuo.</li>
+    </ol>
+    <p><span class="ex"><b>9-1-1</b> Emergencias</span><span class="ex"><b>2210-2828</b> Comisión Nacional de Emergencias</span><span class="ex"><b>2223-1028</b> Centro Nacional de Intoxicaciones</span><span class="ex"><b>2669-9500</b> CMI</span></p>
+    <p class="small">Datos que aparecen en las fichas. En ellas el generador es Corporación Multi Inversiones (CMI), PSF o CVO N.º 103930, Región Chorotega, ARS Tilarán.</p></div>
+  <h3>¿Qué dice cada dato de la ficha?</h3>
+  <div class="grid2">
+    <div class="card"><b>🔢 N.º ONU</b><p class="small">Número de 4 cifras que identifica el tipo de producto en el transporte.</p></div>
+    <div class="card"><b>🔶 Clase</b><p class="small">El tipo principal de peligro para el transporte. Cada clase tiene su placa.</p></div>
+    <div class="card"><b>🟧 N.º de peligro (NIP)</b><p class="small">El número de la placa naranja del camión. 33: líquido muy inflamable. 40: sólido inflamable. 80: corrosivo. 90: peligro diverso.</p></div>
+    <div class="card"><b>📘 Guía GRE</b><p class="small">Número de la Guía de Respuesta a Emergencias que dice cómo actuar.</p></div>
+    <div class="card"><b>🏷️ Código del residuo</b><p class="small">Número de 6 cifras. El asterisco (*) indica que es un residuo peligroso.</p></div>
+    <div class="card"><b>📦 Grupo de embalaje</b><p class="small">Qué tan peligroso es el producto. II es medio, III es menor.</p></div>
+  </div>
+  <h3>Las placas de transporte (ONU)</h3>
+  <p class="small">Son distintas de los pictogramas del SGA. Se ven en el camión y en los bultos durante el transporte.</p>
+  <div class="grid3 stag" id="pl-grid" style="grid-template-columns:repeat(3,1fr);text-align:center"></div>
+  <h3>Toque un residuo para ver su ficha</h3>
+  <div class="grid2" id="fi-grid"></div>
+  <div class="card" id="fi-info" style="background:var(--sf2)"></div>
+  <div class="card"><h3>✅ Para guardar bien los residuos en el acopio</h3>
+    <ul style="margin:.3em 0;padding-left:20px">
+      <li>Lugar <b>fresco y ventilado</b>, bajo techo. No a la intemperie.</li>
+      <li>Lejos del calor, chispas y fuentes de ignición. Use herramientas que no hagan chispas.</li>
+      <li>Evite el contacto con <b>agua</b>: genera lixiviados que contaminan.</li>
+      <li>Recipientes tapados y sobre <b>bandejas de contención</b>.</li>
+      <li>Pinturas y solventes: sobre tarima resistente, en tambor de metal en buen estado, sin abolladuras ni inflados, y revise que no tengan fugas.</li>
+      <li>Fluorescentes: no los rompa. Son tóxicos si se rompen.</li>
+      <li>Baterías: protéjalas del calor, del sol directo y de la humedad.</li>
+      <li>Aerosoles: lejos del calor. Pueden soltar su contenido con violencia.</li>
+      <li>Antes de cargar el vehículo, verifique que los residuos sean compatibles entre sí.</li>
+    </ul></div>
+  <h3>🎯 Practique: ¿qué clase de peligro tiene?</h3>
+  <div id="fi-game"></div>
+</section>
+
+<!-- 7 DERRAMES -->
+<section class="slide" id="derrames" data-t="Atención de derrames" data-e="🛢️">
+  <div class="hd"><span class="kick">Tema 6</span><button class="say" data-say>🔊 Escuchar</button></div>
+  <h2>Si hay un derrame</h2>
+  <p class="lead">En parques eólicos, lo más común es el aceite y la grasa. También hay combustible de la maquinaria.</p>
+  <div class="call red"><b>Regla del protocolo:</b> empiece a atender el derrame y, <u>al mismo tiempo</u>, avise a su jefatura y al equipo de gestión ambiental. No espere a terminar para avisar.</div>
+  <div class="par2">
+    <div><h3>🅰️ Siempre, primero</h3>
+      <ol class="steps">
+        <li><b>Protéjase</b>Aísle el área, lea la etiqueta o la HDS y póngase el EPP.</li>
+        <li><b>Detenga la fuga</b>Solo si es seguro hacerlo.</li>
+        <li><b>Limpie según la situación</b>Elija abajo: superficie porosa, no porosa, viento fuerte o derrame grande.</li>
+      </ol></div>
+    <div><h3>🅱️ Avise en paralelo</h3>
+      <ol class="steps par">
+        <li><b>A su jefatura</b>De inmediato, por el medio más rápido.</li>
+        <li><b>Al equipo de gestión ambiental</b>De inmediato. Ellos apoyan y dan seguimiento.</li>
+        <li><b>Diga lo clave</b>Qué producto, dónde, cuánto más o menos, a qué hora y qué ya hizo.</li>
+        <li><b>Llene el reporte</b>Reporte de incidentes ambientales.</li>
+      </ol>
+      <div class="call red"><b>Aléjese y pida ayuda de emergencia</b> si hay fuego, personas afectadas, el derrame llega a una quebrada o es más grande de lo que puede controlar.</div></div>
+  </div>
+  <h3>🧭 ¿Qué tipo de derrame es?</h3>
+  <div class="chips" id="der-chips"><button class="chip sel" data-k="por">🪨 Superficie porosa</button><button class="chip" data-k="nopor">🧱 No porosa</button><button class="chip" data-k="viento">🌬️ Viento fuerte</button><button class="chip" data-k="grande">🛢️ Más de 200 L</button></div>
+  <div id="der-body"></div>
+  <h3>¿Dónde puede pasar en un parque eólico?</h3>
+  <p class="small">Toque un número en el dibujo.</p>
+  <div class="card">
+    <svg viewBox="0 0 360 230" role="img" aria-label="Puntos de riesgo de derrame en un aerogenerador">
+      <rect width="360" height="230" fill="url(#skg)"/><path d="M0 200 H360 V230 H0Z" fill="var(--gnd)"/><path d="M0 212 H360" stroke="#8a8f8c" stroke-width="10" opacity=".7"/>
+      <g id="hot-t"></g>
+      <rect x="205" y="178" width="34" height="24" rx="3" fill="#7f8c86"/><rect x="209" y="170" width="26" height="8" fill="#9aa7a0"/>
+      <g id="hots"></g>
+    </svg>
+    <div class="chips" id="hot-chips"></div>
+    <div id="hot-info" class="card" style="background:var(--sf2)"></div>
+  </div>
+</section>
+
+<!-- 8 VIDEO DERRAME -->
+<section class="slide" id="derrame-video" data-t="Videos: atención de derrames" data-e="🎬">
+  <div class="hd"><span class="kick">Videos explicativos</span><button class="say" data-say>🔊 Escuchar</button></div>
+  <h2>Así se atiende un derrame</h2>
+  <p class="lead">Elija la situación. Toque <b>🔈</b> para escuchar la narración: el video avanza solo cuando termina la voz y va marcando las palabras.</p>
+  <div class="chips" id="dv-chips"><button class="chip sel" data-k="por">🪨 Porosa</button><button class="chip" data-k="nopor">🧱 No porosa</button><button class="chip" data-k="viento">🌬️ Viento</button><button class="chip" data-k="grande">🛢️ Más de 200 L</button></div>
+  <div id="dv-body"></div>
+  <div class="call"><b>Recuerde:</b> atender y avisar ocurren a la vez. La escena 2 de cada video muestra los dos.</div>
+</section>
+
+
+<!-- 9 MATERIALES -->
+<section class="slide" id="materiales" data-t="Kit, barreras y absorbentes" data-e="🧰">
+  <div class="hd"><span class="kick">Tema 7</span><button class="say" data-say>🔊 Escuchar</button></div>
+  <h2>Kit antiderrames, barreras y absorbentes</h2>
+  <div class="chips" id="mat-chips"></div>
+  <div id="mat-body"></div>
+</section>
+
+<!-- 10 EPP -->
+<section class="slide" id="epp" data-t="Uso de EPP" data-e="🦺">
+  <div class="hd"><span class="kick">Tema 8 · Prioridad</span><button class="say" data-say>🔊 Escuchar</button></div>
+  <h2>Equipo de protección personal (EPP)</h2>
+  <p class="lead">Primero su seguridad. Si no tiene el EPP correcto, no se acerque al derrame.</p>
+  <div class="call red"><b>Antes de actuar:</b> lea la etiqueta y la hoja de seguridad del producto (HDS). La sección 8 dice qué EPP usar. La sección 4 dice los primeros auxilios.</div>
+  <div class="card"><h3>Toque un número</h3>
+    <div class="row" style="flex-wrap:nowrap;align-items:center">
+      <svg viewBox="0 0 170 240" style="width:44%;flex:none" role="img" aria-label="Trabajador con su equipo de protección personal">
+        <rect x="52" y="86" width="56" height="70" rx="10" fill="#d9822b"/><rect x="52" y="108" width="56" height="6" fill="#e8f1f5"/><rect x="52" y="124" width="56" height="6" fill="#e8f1f5"/>
+        <rect x="34" y="90" width="16" height="58" rx="7" fill="#d9822b"/><rect x="110" y="90" width="16" height="58" rx="7" fill="#d9822b"/>
+        <circle cx="42" cy="154" r="9" fill="#1d6fa5"/><circle cx="118" cy="154" r="9" fill="#1d6fa5"/>
+        <rect x="56" y="156" width="20" height="46" fill="#3b4a55"/><rect x="84" y="156" width="20" height="46" fill="#3b4a55"/>
+        <rect x="50" y="202" width="28" height="18" rx="5" fill="#1d1d1d"/><rect x="82" y="202" width="28" height="18" rx="5" fill="#1d1d1d"/>
+        <path d="M62 88 L98 152 M98 88 L62 152" stroke="#7a3e00" stroke-width="3" opacity=".7"/>
+        <circle cx="80" cy="64" r="20" fill="#e0b48f"/>
+        <path d="M52 56 A28 28 0 0 1 108 56 Z" fill="#f2c400"/><rect x="48" y="54" width="64" height="6" rx="3" fill="#d9a900"/>
+        <rect x="62" y="60" width="36" height="9" rx="4" fill="#9dd7f2" stroke="#2b4a5c"/>
+        <path d="M64 70 Q80 92 96 70 Q80 76 64 70Z" fill="#cfd8d3" stroke="#555"/>
+        <g id="eppm"></g>
+      </svg>
+      <div id="epp-tip" style="flex:1;font-size:16px"><b>Toque un número</b> para saber para qué sirve cada pieza.</div>
+    </div></div>
+  <h3>Elija la situación</h3>
+  <div class="chips" id="epp-chips" style="flex-direction:column;align-items:stretch"></div>
+  <div class="grid3 epp" id="epp-grid"></div>
+  <div class="card" id="epp-note"></div>
+  <div class="card"><h3>Buenas prácticas</h3><ul style="margin:.3em 0;padding-left:20px"><li>Revise que el EPP esté en buen estado.</li><li>Póngaselo antes de acercarse al producto.</li><li>No se toque la cara ni coma con guantes sucios.</li><li>El EPP desechable contaminado es residuo peligroso.</li><li>Góndola o altura: solo personal autorizado y capacitado.</li></ul></div>
+</section>
+
+<!-- 11 FAUNA Y FLORA -->
+<section class="slide" id="fauna" data-t="Fauna y flora" data-e="🦎">
+  <div class="hd"><span class="kick">Tema 9</span><button class="say" data-say>🔊 Escuchar</button></div>
+  <h2>Cuidar la fauna y la flora</h2>
+  <div class="stop"><b>✋</b><span>No toque.<br>No mueva.<br>Solo avise.</span></div>
+  <p class="lead" style="margin-top:12px">Vale para un animal herido, muerto, o vivo en un lugar donde puede ser un problema.</p>
+  <div class="player-slot" data-v="fauna"></div>
+  <div class="chips" id="fa-chips"><button class="chip sel" data-k="0">🩹 Herido</button><button class="chip" data-k="1">🪦 Muerto</button><button class="chip" data-k="2">🐍 Vivo en mal lugar</button></div>
+  <div class="card" id="fa-ex"></div>
+  <h3>Qué hacer</h3>
+  <ol class="steps">
+    <li><b>Deténgase y aléjese un poco</b>No lo persiga, no lo asuste y no trate de rescatarlo.</li>
+    <li><b>No lo toque ni lo mueva</b>Tampoco con palos o herramientas. Puede lastimarse usted o el animal.</li>
+    <li><b>Avise al equipo de ambiente</b>Diga dónde está (turbina, camino o área), la hora, cómo es el animal y cómo está. Una foto desde lejos ayuda.</li>
+    <li><b>Espere indicaciones</b>Y evite que otras personas se acerquen.</li>
+  </ol>
+  <div class="card"><h3>🌳 Flora (plantas y árboles)</h3>
+    <ul style="margin:.3em 0;padding-left:20px"><li>Trabaje solo dentro del área autorizada.</li><li>No corte, pode, queme ni lleve plantas, semillas o árboles.</li><li>Transite solo por los caminos del proyecto.</li><li>Cuide nacientes, ríos y quebradas.</li><li>Avise si ve tala, fuego o tierra suelta que se pueda lavar con la lluvia.</li></ul></div>
+</section>
+
+<!-- 12 MONITOREOS -->
+<section class="slide" id="monitoreos" data-t="Monitoreos ambientales" data-e="📡">
+  <div class="hd"><span class="kick">Tema 10</span><button class="say" data-say>🔊 Escuchar</button></div>
+  <h2>Cómo vigilamos el ambiente</h2>
+  <p class="lead">Un parque debe demostrar que no daña su entorno. Por eso se hacen monitoreos. Elija uno.</p>
+  <div class="chips" id="mon-chips"><button class="chip sel" data-k="fau">🦇 Fauna</button><button class="chip" data-k="som">🌓 Efecto sombra</button><button class="chip" data-k="rui">🔊 Ruido</button><button class="chip" data-k="agu">💧 Agua</button></div>
+  <div id="mon-body"></div>
+</section>
+
+<!-- 13 QUIZ -->
+<section class="slide" id="quiz" data-t="Examen final" data-e="📝">
+  <span class="kick">Evaluación</span>
+  <h2>Examen final</h2>
+  <div id="qz"></div>
+</section>
+
+<!-- 14 CIERRE -->
+<section class="slide" id="cierre" data-t="Certificado" data-e="🏅">
+  <span class="kick">Cierre</span>
+  <h2>Cinco reglas de oro</h2>
+  <ol class="steps stag">
+    <li><b>Clasifique en la fuente</b>Cada generador es responsable de sus residuos.</li>
+    <li><b>Entregue bien</b>Clasificado, rotulado y pesado. Luego marchamo y registro en la app.</li>
+    <li><b>Derrame: atienda y avise a la vez</b>A su jefatura y al equipo de gestión ambiental.</li>
+    <li><b>Use el EPP correcto</b>Lea la HDS antes de actuar.</li>
+    <li><b>Fauna: no toque, no mueva</b>Avise al equipo de ambiente.</li>
+  </ol>
+  <div class="card"><h3>Contactos</h3><p>Equipo de gestión ambiental: <b>[teléfono o extensión]</b></p><p>Almacén / bodega de residuos peligrosos: <b>[teléfono o extensión]</b></p><p>Correo para enviar su certificado: <b>cesar.suarez@somoscmi.com</b></p></div>
+  <div id="cert-zone"></div>
+  <details class="card noprint"><summary>🔎 Verificar un certificado</summary>
+    <p class="small">Escanee el QR con la cámara, copie el texto que aparece y péguelo aquí. También puede escribir solo el código.</p>
+    <textarea id="vf-t" rows="5" placeholder="Pegue el texto del QR o el código"></textarea>
+    <button class="btn pri" id="vf-go" style="margin-top:8px">Verificar</button><div id="vf-r"></div></details>
+  <details class="card noprint"><summary>🗂️ Registro de este dispositivo</summary>
+    <p class="small">Guarda las inducciones completadas en este teléfono o computadora. Sirve si una persona facilitadora hace varias inducciones en el mismo equipo.</p>
+    <p id="rg-n"><b>0</b> certificados</p>
+    <div class="row"><button class="btn pri" id="rg-dl">⬇️ Descargar CSV</button><button class="btn" id="rg-cp">📋 Copiar</button></div>
+    <textarea id="rg-t" rows="4" style="display:none;margin-top:8px" readonly></textarea></details>
+</section>
+
+</main>
+
+<footer class="nav"><button id="prev">← Anterior</button><button class="pri" id="next">Siguiente →</button></footer>
+<style>
+.vid.on2 #v1a{transform:translate(-90px,68px)}
+.vid.on3 #v1b{transform:translate(-62px,68px)}.vid.on3 #v1c{transform:translate(-34px,68px)}.vid.on3 #v1d{transform:translate(-6px,68px)}.vid.on3 #v1e{transform:translate(22px,68px)}.vid.on3 #v1f{transform:translate(50px,68px)}
+.vid .sw1{animation:swp 2s ease-in-out infinite}
+</style>
+<style>
+@keyframes drop{0%{transform:translateY(0);opacity:1}80%{opacity:1}100%{transform:translateY(22px);opacity:0}}
+@keyframes fall{0%{transform:translateY(-26px);opacity:0}25%{opacity:1}100%{transform:translateY(22px);opacity:1}}
+@keyframes blow{0%{transform:translate(0,0);opacity:1}100%{transform:translate(120px,-16px);opacity:0}}
+@keyframes wind{from{transform:translateX(-60px);opacity:0}30%{opacity:.85}to{transform:translateX(430px);opacity:0}}
+@keyframes spray{0%{transform:translate(0,0);opacity:0}30%{opacity:1}100%{transform:translate(26px,30px);opacity:0}}
+@keyframes bacteria{0%,100%{transform:scale(.7);opacity:.5}50%{transform:scale(1.4);opacity:1}}
+.vid .drp{animation:drop 1s ease-in infinite}
+.vid .grn{animation:fall 1.8s ease-in infinite}
+.vid .blw{animation:blow 1.6s ease-out infinite}
+.vid .wnd{animation:wind 2.4s linear infinite}
+.vid .spr{animation:spray 1.2s ease-out infinite}
+.vid .bct{animation:bacteria 1.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.vid .ringp{animation:pls 1.2s ease-in-out infinite}
+.vid .stain{transform:scaleY(.05);transform-box:fill-box;transform-origin:top;transition:transform 3s ease-out,opacity .6s}
+.vid.on2 .stain{transform:scaleY(1)}
+.vid.on2 .puddle.pz2,.vid.on3 .puddle.pz3{transform:scale(.6);opacity:.55}
+.vid.on4 .puddle.pv4{opacity:0}
+.dots{display:flex;gap:7px;flex:1;justify-content:flex-end;flex-wrap:wrap}
+.dots button{width:16px;height:16px;border-radius:50%;border:2px solid var(--pri);background:transparent;padding:0}
+.dots button.on{background:var(--pri)}
+.pp span.hl{background:var(--accb);border-radius:4px}
+.pp{min-height:3.2em}
+.ctl{flex-wrap:wrap}
+</style>
+<script>
+(function(){
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var S=$$('.slide'), cur=0, P=null, PL=[], monP=null, monK='fau';
+var quizScore=null, passed=false, REC=null, derP=null, derK='por';
+var synth=window.speechSynthesis||null;
+
+/* ===== ilustraciones ===== */
+function turbine(x,y,h,dur,cls){
+  var hy=y-h, bl=h*0.55, o='';
+  [0,120,240].forEach(function(a){o+='<path transform="rotate('+a+')" d="M'+(-h*0.022)+' 0 L0 '+(-bl)+' L'+(h*0.022)+' 0Z" fill="#fff" stroke="#7f9a8d" stroke-width=".6"/>'});
+  return '<path d="M'+(x-h*0.035)+' '+y+' L'+(x-h*0.016)+' '+hy+' L'+(x+h*0.016)+' '+hy+' L'+(x+h*0.035)+' '+y+'Z" fill="#fff" stroke="#7f9a8d" stroke-width=".6"/><g transform="translate('+x+' '+hy+')"><g class="rot '+(cls||'')+'" style="animation-duration:'+dur+'s">'+o+'</g><circle r="'+(h*0.035)+'" fill="#fff" stroke="#7f9a8d" stroke-width=".6"/></g>';
+}
+function panels(x,y,n){var o='';for(var i=0;i<n;i++){var px=x+i*30;o+='<path d="M'+px+' '+y+' h24 l-4 12 h-24z" fill="#2f5d8a" stroke="#9cc3e6" stroke-width=".8"/><path d="M'+(px-2)+' '+(y+12)+' v8" stroke="#6c7a73" stroke-width="2"/>'}return o}
+function ground(){return '<rect width="360" height="200" fill="url(#skg)"/><path d="M0 150 H360 V200 H0Z" fill="var(--gnd)"/>'}
+function bug(x,y,c,tail){return '<g transform="translate('+x+' '+y+')"><ellipse rx="8" ry="3.5" fill="'+c+'"/><circle cx="-9" r="2.6" fill="'+c+'"/><path d="M-3 -3 l-2 -4 M1 -3 l0 -4 M5 -3 l2 -4 M-3 3 l-2 4 M1 3 l0 4 M5 3 l2 4" stroke="'+c+'" stroke-width="1"/>'+(tail?'<path d="M8 0 l7 -3 M8 0 l7 3" stroke="'+c+'" stroke-width="1.2"/>':'')+'</g>'}
+function worm(x,y){return '<path d="M'+x+' '+y+' q4 -6 8 0 t8 0 t8 0" fill="none" stroke="#c0392b" stroke-width="3" stroke-linecap="round"/>'}
+$('#cov-t').innerHTML=turbine(110,150,115,8)+turbine(210,146,80,6);
+$('#cov-s').innerHTML=panels(250,150,3)+panels(262,172,3);
+$('#hot-t').innerHTML=turbine(130,204,150,10);
+
+/* ===== videos ===== */
+var binsV=[[8,'--c-rojo','PELIGRO'],[66,'--c-azul','ENVASES'],[124,'--c-amarillo','ALUMINIO'],[182,'--c-gris','PAPEL'],[240,'--c-negro','ORDINARIO'],[298,'--c-cafe','ESPECIAL']];
+var itemsV=[['🧽',120,'v1a'],['🍶',150,'v1b'],['🥫',180,'v1c'],['📦',210,'v1d'],['🧻',240,'v1e'],['🛞',270,'v1f']];
+/* ===== piezas para los videos de derrame ===== */
+function sky2(){return '<rect width="360" height="200" fill="url(#skg)"/><path d="M0 146 Q90 126 180 142 T360 138 V152 H0Z" fill="var(--gnd2)"/>'}
+function surf(k){var d='';if(k==='p'){for(var i=0;i<34;i++)d+='<circle cx="'+((i*47)%350+5)+'" cy="'+(156+((i*31)%40))+'" r="'+(1.4+(i%3)*.6)+'"/>';return '<path d="M0 150 H360 V200 H0Z" fill="#b2a384"/><g fill="#8f8266">'+d+'</g>'}return '<path d="M0 150 H360 V200 H0Z" fill="#9ba1a5"/><path d="M0 176 H360 M80 150 V200 M200 150 V200 M310 150 V200" stroke="#7d8488" stroke-width="1"/>'}
+function equip(){return '<rect x="30" y="112" width="52" height="38" rx="4" fill="#7f8c86"/><rect x="38" y="120" width="20" height="14" rx="2" fill="#aab6b0"/><circle cx="70" cy="132" r="6" fill="#aab6b0"/><path d="M82 140 h8" stroke="#555" stroke-width="3"/>'}
+function drip(c){return '<g class="'+c+'"><circle class="drp" cx="94" cy="142" r="2.6" fill="#2b2118"/><circle class="drp" cx="94" cy="142" r="2.6" fill="#2b2118" style="animation-delay:.5s"/></g>'}
+function man2(x,y,c){return '<g class="'+c+'" transform="translate('+x+' '+y+')"><circle r="8" fill="#e0b48f"/><path d="M-9 -2 A9 9 0 0 1 9 -2Z" fill="#f2c400"/><rect x="-8" y="9" width="16" height="24" rx="4" fill="#d9822b"/><rect x="-8" y="16" width="16" height="3" fill="#eef"/><rect x="-7" y="33" width="6" height="16" fill="#3b4a55"/><rect x="1" y="33" width="6" height="16" fill="#3b4a55"/><rect x="-9" y="47" width="8" height="4" rx="2" fill="#111"/><rect x="1" y="47" width="8" height="4" rx="2" fill="#111"/><circle cx="-10" cy="26" r="3.5" fill="#1d6fa5"/><circle cx="10" cy="26" r="3.5" fill="#1d6fa5"/></g>'}
+function calls(c,mx){return '<g class="'+c+'" font-size="10" font-weight="700"><rect x="236" y="14" width="116" height="22" rx="8" fill="var(--sf)" stroke="var(--blu)"/><text x="294" y="29" text-anchor="middle" fill="var(--ink)">📞 Jefatura</text><rect x="236" y="42" width="116" height="34" rx="8" fill="var(--sf)" stroke="var(--blu)"/><text x="294" y="57" text-anchor="middle" fill="var(--ink)">📞 Gestión</text><text x="294" y="70" text-anchor="middle" fill="var(--ink)">ambiental</text><path d="M294 78 L'+mx+' 106" fill="none" stroke="var(--blu)" stroke-dasharray="3 3"/><circle class="ringp" cx="244" cy="25" r="3" fill="var(--blu)"/><circle class="ringp" cx="244" cy="59" r="3" fill="var(--blu)" style="animation-delay:.6s"/></g>'}
+function pads(c){return '<g class="'+c+'"><rect x="108" y="158" width="26" height="9" rx="3" fill="#9aa39e" stroke="#555"/><rect x="138" y="162" width="26" height="9" rx="3" fill="#9aa39e" stroke="#555"/><rect x="122" y="170" width="26" height="8" rx="3" fill="#9aa39e" stroke="#555"/></g>'}
+function grains(c,x0,w,n,an){var o='<g class="'+c+'">';for(var i=0;i<n;i++)o+='<circle class="'+an+'" cx="'+(x0+i*w/n+(i%3)*3)+'" cy="'+(138+(i%4)*3)+'" r="2.2" fill="#c8b27a" style="animation-delay:'+((i%6)*.25)+'s"/>';return o+'</g>'}
+function spray(c){var o='<g class="'+c+'"><text x="108" y="108" font-size="24" transform="rotate(35 108 108)">🧴</text>';for(var i=0;i<8;i++)o+='<circle class="spr" cx="128" cy="114" r="2" fill="#4fd18b" style="animation-delay:'+(i*.18)+'s"/>';return o+'</g>'}
+function bact(c,x,y,n){var o='<g class="'+c+'">';for(var i=0;i<n;i++)o+='<circle class="bct" cx="'+(x+i*14)+'" cy="'+(y+(i%2)*6)+'" r="3.2" fill="#4fd18b" style="animation-delay:'+(i*.2)+'s"/>';return o+'</g>'}
+function binR(c){return '<g class="'+c+'"><rect x="302" y="128" width="40" height="30" rx="4" fill="#c0392b"/><text x="322" y="147" text-anchor="middle" font-size="9" font-weight="800" fill="#fff">RESPEL</text></g>'}
+function windy(c){var o='<g class="'+c+'">';[40,70,100].forEach(function(y,i){o+='<path class="wnd" d="M0 '+y+' h44 m-9 -6 l9 6 l-9 6" fill="none" stroke="#5b8fb0" stroke-width="3" stroke-linecap="round" style="animation-delay:'+(i*.6)+'s"/>'});return o+'</g>'}
+var VID={
+clasif:{alt:'Animación de residuos que se separan en recipientes de colores',
+ svg:ground()+binsV.map(function(b){return '<g class="a1"><rect x="'+b[0]+'" y="118" width="44" height="52" rx="5" fill="var('+b[1]+')"/><rect x="'+(b[0]-3)+'" y="112" width="50" height="9" rx="3" fill="var('+b[1]+')"/><text x="'+(b[0]+22)+'" y="150" text-anchor="middle" font-size="8" font-weight="800" fill="'+(b[1]==='--c-amarillo'?'#222':'#fff')+'">'+b[2]+'</text></g>'}).join('')+itemsV.map(function(it){return '<g class="mv" id="'+it[2]+'"><text x="'+it[1]+'" y="62" font-size="26" text-anchor="middle">'+it[0]+'</text></g>'}).join('')+'<text class="a4" x="180" y="190" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">✔ Rotulado ✔ Pesado ✔ Marchamo ✔ App</text>',
+ sc:[["1 · Separe en la fuente","Aquí hay seis residuos mezclados: un trapo con aceite, una botella, una lata de aluminio, cartón, una servilleta usada y una llanta."],["2 · Cada color tiene su lugar","Rojo para peligrosos, azul para envases, amarillo para aluminio, latón y latas de conserva, gris para papel y cartón, negro para ordinarios y café para manejo especial."],["3 · El trapo con aceite es peligroso: rojo","Todo lo que tuvo contacto con aceite o combustible es residuo peligroso. En nuestros parques, además del color rojo, se sigue el protocolo: se entrega en el almacén."],["4 · Los demás, a su color","La botella al azul, la lata al amarillo, el cartón al gris, la servilleta al negro y la llanta al café."],["5 · Entregue bien","Clasificado, rotulado y pesado. Luego se coloca el marchamo y se registra la entrega en la app."]]},
+derPor:{alt:'Animación: derrame sobre lastre o tierra, con adsorbente de algas y bioremediador',
+ svg:sky2()+surf('p')+equip()+'<ellipse class="puddle pz2" cx="140" cy="168" rx="42" ry="12"/>'+drip('a0 o2')+'<ellipse class="a2" cx="140" cy="168" rx="46" ry="13" fill="#c8b27a" fill-opacity=".85"/>'+pads('a2 o4')+grains('a2 o3',112,60,14,'grn')+spray('a3 o4')+bact('a3',118,166,5)+'<g class="a4"><text class="pulse" x="140" y="164" font-size="22" text-anchor="middle">🌱</text><text x="140" y="192" font-size="10" font-weight="800" text-anchor="middle" fill="#fff">El adsorbente queda en el sitio</text></g>'+man2(250,118,'a1')+calls('a1',250)+binR('a4'),
+ sc:[["1 · Se detecta el derrame","Aceite sobre lastre o tierra. El producto se mete en el suelo. Mantenga distancia."],["2 · Protéjase y avise, a la vez","Póngase el equipo de protección personal y, al mismo tiempo, avise a su jefatura y al equipo de gestión ambiental."],["3 · Adsorbente de algas y pads","Cubra la mancha con adsorbente de algas, que es lo ideal en superficie porosa. Si la fuga sigue, ponga pads o almohadas al mismo tiempo."],["4 · Bioremediador","Después, limpie con bioremediador para degradar lo que queda en el suelo."],["5 · No hace falta recoger el adsorbente","El adsorbente de algas queda en el sitio. Los pads y almohadas sí se recogen y se entregan como residuo peligroso."]]},
+derNoPor:{alt:'Animación: derrame sobre concreto, con pads, barreras y bioremediador',
+ svg:sky2()+surf('h')+equip()+'<ellipse class="puddle pv4" cx="140" cy="168" rx="46" ry="12"/>'+drip('a0 o2')+'<ellipse class="a2 barrier" cx="140" cy="168" rx="62" ry="19" fill="none" stroke="#e08a1f" stroke-width="4"/><g class="a2"><circle cx="236" cy="172" r="9" fill="#6b7479" stroke="#333"/><path d="M230 166 l12 12 M242 166 l-12 12" stroke="#333" stroke-width="2"/><text x="236" y="193" font-size="8" font-weight="800" text-anchor="middle" fill="#fff">Drenaje cubierto</text></g>'+pads('a2 o4')+spray('a3 o4')+bact('a3 o4',118,166,5)+'<text class="a4" x="140" y="172" font-size="24" text-anchor="middle">✅</text>'+man2(290,118,'a1')+calls('a1',290)+binR('a4'),
+ sc:[["1 · Se detecta el derrame","Aceite sobre concreto o piso liso. El producto no se mete: corre por la superficie."],["2 · Protéjase y avise, a la vez","Póngase el equipo de protección personal y, al mismo tiempo, avise a su jefatura y al equipo de gestión ambiental."],["3 · Pads, almohadas y barreras","Coloque pads o almohadas sobre el derrame y proteja el avance con barreras. Cubra los drenajes."],["4 · Bioremediador","Limpie con bioremediador lo que quede en la superficie."],["5 · Recoja los pads","Recoja los pads y almohadas usados y entréguelos como residuo peligroso."]]},
+derViento:{alt:'Animación: con viento fuerte el adsorbente se dispersa',
+ svg:sky2()+surf('p')+equip()+'<ellipse class="puddle" cx="140" cy="168" rx="42" ry="12"/>'+windy('a0')+grains('a0 o2',112,60,10,'blw')+'<g class="a1 o2"><text class="pulse" x="140" y="118" font-size="26" text-anchor="middle">⚠️</text></g>'+pads('a2')+'<ellipse class="a2 barrier" cx="140" cy="168" rx="58" ry="17" fill="none" stroke="#e08a1f" stroke-width="4"/>'+man2(250,118,'a3')+calls('a3',250),
+ sc:[["1 · Hay viento fuerte","Se derramó aceite en una zona abierta y ventosa."],["2 · El adsorbente se dispersa","El viento puede esparcir el adsorbente y dejarlo sin efecto. Tenga precaución."],["3 · Contenga con pads y barreras","No dependa solo del adsorbente: use pads, almohadas y barreras."],["4 · Consulte al equipo ambiental","Avise a su jefatura y consulte al equipo de gestión ambiental cuál es la mejor opción."]]},
+derGrande:{alt:'Animación: derrame de más de 200 litros, análisis de suelo y remediación o retiro',
+ svg:sky2()+surf('p')+equip()+'<ellipse class="puddle" cx="180" cy="168" rx="96" ry="15"/><g class="a0"><rect x="144" y="112" width="72" height="22" rx="8" fill="var(--dng)"/><text x="180" y="128" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">+ 200 L</text></g><ellipse class="a1 barrier" cx="180" cy="168" rx="112" ry="22" fill="none" stroke="#e08a1f" stroke-width="4"/><rect class="stain a2 o4" x="130" y="150" width="100" height="46" fill="#2b2118" fill-opacity=".55"/><g class="a2"><text class="pulse" x="300" y="146" font-size="26" text-anchor="middle">🔬</text></g>'+bact('a3 o4',140,176,6)+'<g class="a3 o4"><rect x="130" y="112" width="100" height="22" rx="8" fill="var(--sf)" stroke="var(--pri)"/><text x="180" y="127" text-anchor="middle" font-size="10" font-weight="800" fill="var(--ink)">Remediación del suelo</text></g><text class="a4" x="150" y="150" font-size="30" text-anchor="middle">🚜</text><text class="a4" x="300" y="150" font-size="30" text-anchor="middle">🚛</text><text class="a4" x="300" y="170" font-size="9" font-weight="800" text-anchor="middle" fill="#fff">Gestor autorizado</text>'+man2(330,118,'a1')+calls('a1',320),
+ sc:[["1 · Derrame de más de 200 litros","Es un derrame muy grande. Mantenga distancia."],["2 · Contenga y avise de inmediato","Con el equipo de protección puesto, contenga con barreras y avise a su jefatura y al equipo de gestión ambiental."],["3 · Análisis de suelo","Se toman muestras para saber si el producto se filtró en el suelo y cuánto hay."],["4 · Si se filtró y supera lo permitido","Se hace la remediación posterior del suelo."],["5 · En su defecto: excavar y retirar","Se excava y se retira el material contaminado, y se envía a tratamiento con un gestor autorizado."]]},
+sga:{alt:'Animación de cómo leer la etiqueta de un producto químico',
+ svg:ground()+'<rect x="136" y="60" width="88" height="110" rx="10" fill="#3a6ea5"/><rect x="136" y="78" width="88" height="5" fill="#2c557f"/><rect x="136" y="148" width="88" height="5" fill="#2c557f"/><rect x="146" y="88" width="68" height="58" rx="3" fill="#fff"/><polygon points="180,92 196,108 180,124 164,108" fill="#fff" stroke="#d0201a" stroke-width="3"/><text x="180" y="113" font-size="14" text-anchor="middle">🔥</text><text x="180" y="136" font-size="9" font-weight="800" text-anchor="middle" fill="#d0201a">PELIGRO</text><rect x="152" y="139" width="56" height="2.5" fill="#777"/><rect x="152" y="143" width="44" height="2.5" fill="#777"/>'+
+ '<g class="a1 o2"><polygon class="pulse" points="180,86 202,108 180,130 158,108" fill="none" stroke="#e08a1f" stroke-width="3"/></g><g class="a2 o3"><rect class="pulse" x="148" y="128" width="64" height="12" rx="3" fill="none" stroke="#e08a1f" stroke-width="3"/></g><g class="a3 o4"><rect class="pulse" x="149" y="137" width="62" height="11" rx="3" fill="none" stroke="#e08a1f" stroke-width="3"/><text x="260" y="118" font-size="26" text-anchor="middle">🧤</text><text x="100" y="118" font-size="26" text-anchor="middle">👓</text></g>'+
+ '<g class="a4"><circle cx="180" cy="115" r="62" fill="#c0392b" fill-opacity=".18"/><path d="M130 65 L230 165 M230 65 L130 165" stroke="#c0392b" stroke-width="9" stroke-linecap="round"/></g><g class="a4"><text x="180" y="192" font-size="11" font-weight="800" text-anchor="middle" fill="#fff">Sin etiqueta, no se usa</text></g>',
+ sc:[["1 · Producto con su etiqueta","Por decreto, todo producto químico peligroso debe tener su etiqueta en español."],["2 · Mire el pictograma","El rombo con borde rojo avisa el tipo de peligro. Aquí hay una llama: el producto es inflamable."],["3 · Lea la palabra de advertencia","Peligro es lo más grave. Atención es menos grave."],["4 · Lea cómo usarlo con seguridad","Los consejos de prudencia dicen cómo usarlo y qué equipo de protección ponerse. Más detalles están en la hoja de seguridad."],["5 · Sin etiqueta, no se usa","Si un envase no tiene etiqueta o no se lee, no lo use. Avise al equipo de gestión ambiental."]]},
+fauna:{alt:'Animación de qué hacer al encontrar un animal herido',
+ svg:ground()+turbine(60,150,110,12)+'<g class="a0"><text x="170" y="166" font-size="26" text-anchor="middle">🐦</text></g><g class="a0 o1"><g class="blink"><text x="195" y="140" font-size="22">❗</text></g></g>'+
+ '<g class="a1 o4"><circle cx="170" cy="138" r="30" fill="none" stroke="#c0392b" stroke-width="5"/><path d="M149 159 L191 117" stroke="#c0392b" stroke-width="5"/><text x="170" y="147" font-size="24" text-anchor="middle">🤚</text></g>'+
+ '<text x="262" y="168" font-size="28" text-anchor="middle">🧍</text>'+
+ '<g class="a2 o3" font-size="10" font-weight="700"><rect x="236" y="30" width="116" height="40" rx="10" fill="var(--sf)" stroke="var(--blu)"/><text x="294" y="47" text-anchor="middle" fill="var(--ink)">📞 Equipo de</text><text x="294" y="61" text-anchor="middle" fill="var(--ink)">ambiente</text><path d="M270 70 Q262 100 262 138" fill="none" stroke="var(--blu)" stroke-dasharray="3 3"/></g>'+
+ '<g class="a3" font-size="10" font-weight="700"><rect x="214" y="16" width="140" height="82" rx="10" fill="var(--sf)" stroke="var(--pri)"/><text x="224" y="36" fill="var(--ink)">📍 Dónde está</text><text x="224" y="52" fill="var(--ink)">⏰ A qué hora</text><text x="224" y="68" fill="var(--ink)">🦇 Cómo es y cómo está</text><text x="224" y="84" fill="var(--ink)">📷 Foto desde lejos</text></g>'+
+ '<g class="a4"><text x="170" y="170" font-size="26" text-anchor="middle">🚧</text><text x="170" y="192" font-size="11" font-weight="800" text-anchor="middle" fill="#fff">Mantenga distancia</text></g>',
+ sc:[["1 · Encuentra un animal herido","Puede estar cerca de una turbina o en un camino. Deténgase."],["2 · No lo toque ni lo mueva","Aunque parezca tranquilo, puede morder o arañar. Y moverlo puede dañarlo más."],["3 · Avise al equipo de ambiente","Llame o escriba de inmediato."],["4 · Diga los datos","Dónde está, a qué hora lo vio, cómo es y cómo está. Una foto desde lejos ayuda."],["5 · Espere indicaciones","Manténgase a distancia y no deje que otras personas se acerquen."]]},
+sombra:{alt:'Animación del efecto sombra de las aspas sobre una casa',
+ svg:ground()+'<circle class="pulse" cx="50" cy="45" r="18" fill="var(--sun)"/>'+turbine(150,150,110,5,'pz')+'<g class="a1"><path d="M68 47 L150 42 L262 120" fill="none" stroke="#f5b932" stroke-width="2" stroke-dasharray="5 4"/></g>'+
+ '<rect x="260" y="118" width="60" height="40" fill="#e8d3b0"/><path d="M255 118 L290 92 L325 118Z" fill="#a5532f"/><rect x="273" y="130" width="16" height="14" fill="#ffe08a"/><rect x="298" y="130" width="14" height="28" fill="#7a5233"/><rect class="shd" x="255" y="90" width="75" height="70" fill="#000"/>'+
+ '<g class="a2"><rect x="228" y="168" width="64" height="24" rx="5" fill="#222"/><text x="260" y="184" text-anchor="middle" font-size="10" font-weight="800" fill="#7cfc9a">📟 Se mide</text></g>'+
+ '<g class="a3"><text x="150" y="30" font-size="24" text-anchor="middle">⏸️</text></g>',
+ sc:[["1 · El sol detrás de la turbina","Cuando el sol queda detrás de la turbina, las aspas pueden tapar su luz."],["2 · La sombra parpadea","Al girar, las aspas hacen que la sombra pase una y otra vez sobre las casas cercanas. Eso se llama efecto sombra."],["3 · Se calcula y se mide","Se calcula cuántas horas al año ocurre y se vigila en las casas cercanas."],["4 · Si molesta, se actúa","Una medida posible es parar la turbina en esas horas. Si un vecino reclama, avise al equipo de ambiente."]]},
+ruido:{alt:'Animación de cómo se mide el ruido de un aerogenerador',
+ svg:ground()+turbine(80,150,110,6)+'<g><circle class="ringc" cx="80" cy="40" r="14"/><circle class="ringc" cx="80" cy="40" r="14" style="animation-delay:1s"/><circle class="ringc" cx="80" cy="40" r="14" style="animation-delay:2s"/></g>'+
+ '<rect x="262" y="120" width="60" height="38" fill="#e8d3b0"/><path d="M257 120 L292 94 L327 120Z" fill="#a5532f"/><rect x="274" y="132" width="16" height="14" fill="#ffe08a"/>'+
+ '<g class="a1"><rect x="200" y="140" width="48" height="26" rx="4" fill="#222"/><text x="224" y="157" text-anchor="middle" font-size="11" font-weight="800" fill="#7cfc9a">48 dB</text><path d="M224 166 v12 M214 182 l10 -4 l10 4" stroke="#555" stroke-width="2" fill="none"/><text x="224" y="194" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">Sonómetro</text></g>'+
+ '<g class="a2"><rect x="150" y="10" width="190" height="14" rx="7" fill="#2e8b57"/><rect x="262" y="10" width="45" height="14" fill="#e0a72b"/><rect x="307" y="10" width="33" height="14" rx="7" fill="#c0392b"/><path d="M262 6 v22" stroke="#fff" stroke-width="3"/><text x="262" y="42" text-anchor="middle" font-size="10" font-weight="800" fill="var(--ink)">Límite</text><circle cx="215" cy="17" r="6" fill="#fff" stroke="#222" stroke-width="2"/></g>'+
+ '<g class="a3"><text x="224" y="130" text-anchor="middle" font-size="22">✅</text></g>',
+ sc:[["1 · La turbina hace sonido","El sonido viaja por el aire. Se mide en decibeles (dB)."],["2 · Un sonómetro mide","Se coloca cerca de las casas, de día y de noche, con el equipo bien calibrado."],["3 · Se compara con el límite","El reglamento fija un límite según la zona y la hora. La medida debe quedar por debajo."],["4 · Si se pasa, se corrige","Se buscan las causas, por ejemplo mantenimiento, y se aplican medidas."]]},
+agua:{alt:'Animación de cómo se mide la calidad del agua con macroinvertebrados',
+ svg:ground()+'<path d="M0 108 Q90 94 180 110 T360 104 V158 H0Z" fill="#3a8fc7" opacity=".9"/><path d="M0 108 Q90 94 180 110 T360 104" fill="none" stroke="#fff" stroke-width="2" opacity=".6"/><text x="60" y="104" font-size="30" text-anchor="middle">🧑</text><g class="a1 swp"><text x="104" y="136" font-size="26" text-anchor="middle">🥅</text></g><g class="a0 o1"><text x="196" y="132" font-size="22" text-anchor="middle">📍</text><text x="196" y="150" font-size="9" font-weight="800" text-anchor="middle" fill="#fff">Punto de muestreo</text></g>'+
+ '<g class="a2 o3"><rect x="14" y="8" width="332" height="84" rx="10" fill="var(--sf)" stroke="var(--pri)"/><text x="180" y="26" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">💧 Agua limpia: muchos tipos</text>'+bug(52,48,'#7a5233')+bug(110,48,'#2e8b57',1)+bug(168,48,'#2a6fb5')+bug(226,48,'#d9822b',1)+bug(284,48,'#7d3c98')+'<text x="52" y="72" text-anchor="middle" font-size="9" fill="var(--ink)">Efímera</text><text x="110" y="72" text-anchor="middle" font-size="9" fill="var(--ink)">Tricóptero</text><text x="168" y="72" text-anchor="middle" font-size="9" fill="var(--ink)">Libélula</text><text x="226" y="72" text-anchor="middle" font-size="9" fill="var(--ink)">Plecóptero</text><text x="284" y="72" text-anchor="middle" font-size="9" fill="var(--ink)">Escarabajo</text></g>'+
+ '<g class="a3 o4"><rect x="14" y="8" width="332" height="84" rx="10" fill="var(--sf)" stroke="var(--dng)"/><text x="180" y="26" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">⚠️ Agua contaminada: pocos tipos</text>'+worm(60,50)+worm(120,56)+worm(180,48)+worm(240,56)+worm(290,50)+'<text x="180" y="78" text-anchor="middle" font-size="9" fill="var(--ink)">Gusanos rojos y otros que aguantan la contaminación</text></g>'+
+ '<g class="a4"><rect x="14" y="8" width="332" height="84" rx="10" fill="var(--sf)" stroke="var(--blu)"/><text x="180" y="26" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">Clase de calidad del agua</text><rect x="30" y="38" width="60" height="22" fill="#2a6fb5"/><rect x="90" y="38" width="60" height="22" fill="#2e8b57"/><rect x="150" y="38" width="60" height="22" fill="#e0c030"/><rect x="210" y="38" width="60" height="22" fill="#e08a1f"/><rect x="270" y="38" width="60" height="22" fill="#c0392b"/><text x="60" y="78" text-anchor="middle" font-size="9" fill="var(--ink)">Excelente</text><text x="120" y="78" text-anchor="middle" font-size="9" fill="var(--ink)">Buena</text><text x="180" y="78" text-anchor="middle" font-size="9" fill="var(--ink)">Regular</text><text x="240" y="78" text-anchor="middle" font-size="9" fill="var(--ink)">Mala</text><text x="300" y="78" text-anchor="middle" font-size="9" fill="var(--ink)">Pésima</text></g>',
+ sc:[["1 · Se elige el punto","Se escoge un punto de la quebrada o río cerca del proyecto."],["2 · Se recogen animalitos con una red","Son los macroinvertebrados: larvas de insectos, caracoles y gusanos que viven en el fondo y se ven a simple vista."],["3 · Agua limpia","Hay muchos tipos de animalitos, incluso los delicados, que solo viven en agua limpia."],["4 · Agua contaminada","Quedan pocos tipos, los que aguantan la contaminación, como los gusanos rojos."],["5 · Se califica el agua","Con eso y con análisis de oxígeno y otros, el agua se clasifica en cinco clases, de azul (excelente) a rojo (pésima)."]]}
+};
+
+/* ===== voz ===== */
+var AUTOVOZ=false, VOZ=null, SP=0;
+function pickVoice(){
+  if(!synth)return null;var vs=synth.getVoices()||[];if(!vs.length)return VOZ;
+  var pref=[/es[-_]CR/i,/es[-_]MX/i,/es[-_]US/i,/es[-_]419/i,/^es/i];
+  for(var k=0;k<pref.length;k++){var c=vs.filter(function(v){return pref[k].test(v.lang)});if(c.length){var n=c.filter(function(v){return /natural|neural|online|google/i.test(v.name)});VOZ=n.length?n[0]:c[0];return VOZ}}
+  return VOZ;
+}
+if(synth){try{synth.onvoiceschanged=pickVoice}catch(e){}pickVoice()}
+function speakable(t){
+  return t.replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu,' ').replace(/\bHDS\b/g,'hoja de seguridad').replace(/\bEPP\b/g,'equipo de protección personal').replace(/\bRESPEL\b/g,'residuos peligrosos').replace(/\bdB\b/g,'decibeles').replace(/\bpH\b/g,'pe hache').replace(/N\.º\s*/g,'número ').replace(/%/g,' por ciento').replace(/[→·]/g,',').replace(/[“”«»]/g,'').replace(/\s*[–—]\s*/g,', ').replace(/\s+/g,' ').trim();
+}
+function speak(txt,o){
+  if(!synth)return;o=o||{};var my=++SP;
+  var u=new SpeechSynthesisUtterance(txt),v=pickVoice(),done=false,g=null;
+  u.lang=v?v.lang:'es-MX';if(v)u.voice=v;u.rate=.92;u.pitch=1;u.volume=1;
+  function fin(){if(done)return;done=true;clearTimeout(g);if(o.onend)o.onend()}
+  u.onend=fin;u.onerror=fin;
+  u.onboundary=function(e){if(o.onb)o.onb(e.charIndex)};
+  g=setTimeout(fin,txt.length*95+4000);
+  setTimeout(function(){if(my===SP&&!done)synth.speak(u)},60);
+}
+function stopSay0(){SP++;if(synth)synth.cancel()}
+function stopSay(){stopSay0();$$('[data-say]').forEach(function(b){b.textContent='🔊 Escuchar'})}
+function slideText(sl){
+  var a=[];$$('h2,h3,p:not(.small),li,summary,.call,.fb',sl).forEach(function(e){if(e.closest('.noprint,form,.player,#cert-zone'))return;var t=e.textContent.replace(/\s+/g,' ').trim();if(t)a.push(t)});
+  return a.join('. ').slice(0,5000);
+}
+function readLong(txt,btn){
+  stopSay();var my=SP,parts=speakable(txt).replace(/([.!?:;])\s+/g,'$1|').split('|'),chunks=[],c2='',v=pickVoice();
+  parts.forEach(function(p){if((c2+' '+p).length>190&&c2){chunks.push(c2);c2=p}else c2=(c2?c2+' ':'')+p});if(c2)chunks.push(c2);
+  chunks.forEach(function(c,i){var u=new SpeechSynthesisUtterance(c);u.lang=v?v.lang:'es-MX';if(v)u.voice=v;u.rate=.92;if(i===chunks.length-1){u.onend=u.onerror=function(){if(my===SP)btn.textContent='🔊 Escuchar'}}synth.speak(u)});
+}
+$$('[data-say]').forEach(function(b){b.onclick=function(){
+  if(!synth){alert('Este teléfono o navegador no tiene lectura en voz alta.');return}
+  if(b.textContent.indexOf('Detener')>-1){stopSay();return}
+  b.textContent='⏹ Detener';readLong(slideText(b.closest('.slide')),b);
+}});
+
+/* ===== reproductor de videos (sincronizado con la voz) ===== */
+function Player(el,key){
+  var V=VID[key],i=0,t=null,play=true,voice=false,tok=0;
+  var dots=V.sc.map(function(_,k){return '<button data-d="'+k+'" aria-label="Escena '+(k+1)+'"></button>'}).join('');
+  el.innerHTML='<div class="player"><svg class="vid" viewBox="0 0 360 200" role="img" aria-label="'+V.alt+'">'+V.svg+'</svg><div class="cap"><h3 class="ph" style="margin:0"></h3><p class="pp" style="margin:.2em 0"></p></div><div class="ctl"><button class="btn" data-a="p" aria-label="Escena anterior">⏮</button><button class="btn pri" data-a="pl" aria-label="Pausar o reproducir">⏸</button><button class="btn" data-a="n" aria-label="Escena siguiente">⏭</button><button class="btn" data-a="v" aria-label="Narración en voz alta">🔈</button><div class="dots">'+dots+'</div></div></div>';
+  var svg=$('svg',el),h=$('.ph',el),p=$('.pp',el),bpl=$('[data-a=pl]',el),bv=$('[data-a=v]',el),ds=$$('.dots button',el);
+  function stopT(){clearTimeout(t);t=null}
+  function paint(){var c='vid';for(var k=0;k<=i;k++)c+=' on'+k;svg.setAttribute('class',c);h.textContent=V.sc[i][0];p.innerHTML=V.sc[i][1].split(' ').map(function(w){return '<span>'+w+'</span>'}).join(' ');ds.forEach(function(d,k){d.classList.toggle('on',k===i)})}
+  function nxt(){if(i>=V.sc.length-1){if(voice){play=false;bpl.textContent='▶';return}i=0}else i++;show()}
+  function show(){
+    tok++;var my=tok;stopT();stopSay0();paint();
+    if(!play)return;
+    if(voice&&synth){
+      var title=speakable(V.sc[i][0].replace(/^(\d+) · /,'Escena $1. ')+'.'),txt=speakable(V.sc[i][1]),spans=$$('span',p);
+      speak(title+' '+txt,{
+        onb:function(ci){if(my!==tok||ci<=title.length)return;var r=(ci-title.length-1)/Math.max(1,txt.length),n=Math.min(spans.length,Math.floor(r*spans.length)+1);spans.forEach(function(s,k){s.className=(k<n)?'hl':''})},
+        onend:function(){if(my!==tok)return;spans.forEach(function(s){s.className=''});t=setTimeout(function(){if(my===tok)nxt()},900)}});
+    }else{var len=V.sc[i][0].length+V.sc[i][1].length;t=setTimeout(function(){if(my===tok)nxt()},Math.max(4500,2600+len*50))}
+  }
+  $('[data-a=p]',el).onclick=function(){i=(i+V.sc.length-1)%V.sc.length;show()};
+  $('[data-a=n]',el).onclick=function(){i=(i+1)%V.sc.length;show()};
+  ds.forEach(function(d){d.onclick=function(){i=+d.dataset.d;show()}});
+  bpl.onclick=function(){play=!play;bpl.textContent=play?'⏸':'▶';if(play){show()}else{tok++;stopT();stopSay0()}};
+  bv.onclick=function(){if(!synth){alert('Este navegador no tiene voz.');return}voice=!voice;AUTOVOZ=voice;bv.className='btn'+(voice?' pri':'');bv.textContent=voice?'🔊 Narrando':'🔈';play=true;bpl.textContent='⏸';show()};
+  this.start=function(){i=0;play=true;voice=AUTOVOZ&&!!synth;bv.className='btn'+(voice?' pri':'');bv.textContent=voice?'🔊 Narrando':'🔈';bpl.textContent='⏸';setTimeout(show,80)};
+  this.stop=function(){tok++;stopT();stopSay0()};
+  paint();
+}
+$$('.player-slot').forEach(function(el){var sl=el.closest('.slide').id;PL.push({slide:sl,p:new Player(el,el.dataset.v)})});
+function stopAll(){PL.forEach(function(x){x.p.stop()});if(monP)monP.stop();if(derP)derP.stop()}
+
+/* ===== navegación ===== */
+function go(i){
+  i=Math.max(0,Math.min(S.length-1,i));
+  if(!P&&i>0){i=0;$('#f-err').textContent='Complete sus datos para comenzar.'}
+  cur=i;stopAll();stopSay();
+  S.forEach(function(s,k){s.classList.toggle('on',k===cur)});
+  $$('.stag',S[cur]).forEach(function(g){Array.prototype.forEach.call(g.children,function(c,j){c.style.setProperty('--i',j)})});
+  $('#main').scrollTop=0;
+  $('#cnt').textContent=(cur+1)+' / '+S.length;
+  $('#bar').style.width=((cur+1)/S.length*100)+'%';
+  $('#prev').disabled=(cur===0);
+  $('#next').style.display=(cur===0)?'none':'';
+  $('#next').textContent=(cur===S.length-1)?'Volver al inicio':'Siguiente →';
+  $$('#dlist button').forEach(function(b,k){b.classList.toggle('cur',k===cur);b.disabled=(!P&&k>0)});
+  var id=S[cur].id;
+  PL.forEach(function(x){if(x.slide===id)x.p.start()});
+  if(id==='monitoreos')renderMon(monK);
+  if(id==='derrame-video')renderDerVid(derK);
+  if(id==='cierre')renderCert();
+}
+$('#prev').onclick=function(){go(cur-1)};
+$('#next').onclick=function(){go(cur===S.length-1?1:cur+1)};
+$('#menuBtn').onclick=function(){$('#drawer').classList.add('open')};
+$('#drawer').onclick=function(e){if(e.target===this)this.classList.remove('open')};
+var dl='',toc='';
+S.forEach(function(s,i){dl+='<button data-i="'+i+'">'+s.dataset.e+'  '+s.dataset.t+'</button>';if(i>1&&i<S.length-1)toc+='<button class="tile" data-i="'+i+'"><b>'+s.dataset.e+'</b>'+s.dataset.t+'</button>'});
+$('#dlist').innerHTML=dl;$('#toc').innerHTML=toc;
+$$('#dlist button,#toc button').forEach(function(b){b.onclick=function(){$('#drawer').classList.remove('open');go(+b.dataset.i)}});
+document.addEventListener('keydown',function(e){if(/INPUT|TEXTAREA|SELECT/.test((e.target||{}).tagName||''))return;if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
+var tx=null,ty=0;
+$('#main').addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+$('#main').addEventListener('touchend',function(e){if(tx===null)return;var dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;tx=null;if(Math.abs(dx)>110&&Math.abs(dx)>Math.abs(dy)*2.4&&!/INPUT|TEXTAREA|SELECT/.test((e.target||{}).tagName||'')){go(dx<0?cur+1:cur-1)}},{passive:true});
+function chipsSel(box,cb){$$('.chip',box).forEach(function(c){c.onclick=function(){$$('.chip',box).forEach(function(x){x.classList.remove('sel')});c.classList.add('sel');cb(c.dataset.k)}})}
+function pick(box,k){$$('.chip',box).forEach(function(c){c.classList.toggle('sel',c.dataset.k===k)})}
+
+/* ===== registro ===== */
+$('#f-emp').onchange=function(){$('#f-emp2').style.display=this.value==='otra'?'block':'none'};
+var PLA={
+ "Tilarán|Eólico":[["ALT","Altamira"],["CAM","Campos Azules"]],
+ "Tilarán|Solar":[["MAN","Los Mangos"],["TEC","Los Tecales"],["CAN","Las Cañas"]],
+ "Liberia|Eólico":[["PER","La Perla"],["MIR","Miramar"],["ORO","Orosi"],["QUI","El Quijote (Guayabo de Bagaces)"]],
+ "Liberia|Solar":[]};
+function refreshPla(){
+  var tipo=($('input[name=tipo]:checked')||{}).value,sede=($('input[name=sede]:checked')||{}).value,sel=$('#f-pla');
+  if(!tipo||!sede){sel.disabled=true;sel.innerHTML='<option value="">Elija primero el tipo y la sede</option>';$('#f-pla2').style.display='none';return}
+  var l=PLA[sede+'|'+tipo]||[],o='<option value="">Elija una opción</option>';
+  l.forEach(function(x){o+='<option value="'+x[0]+'|'+x[1]+'">'+x[1]+'</option>'});
+  o+='<option value="OTR|otra">Otra planta</option>';
+  sel.innerHTML=o;sel.disabled=false;$('#f-pla2').style.display='none';
+}
+$$('input[name=tipo],input[name=sede]').forEach(function(r){r.onchange=refreshPla});
+$('#f-pla').onchange=function(){$('#f-pla2').style.display=/^OTR\|/.test(this.value)?'block':'none'};
+$('#f-go').onclick=function(){
+  var e=$('#f-err'),nom=$('#f-nom').value.trim().replace(/\s+/g,' '),id=$('#f-id').value.trim(),emp=$('#f-emp').value,emp2=$('#f-emp2').value.trim(),pla=$('#f-pla').value,pla2=$('#f-pla2').value.trim();
+  var tipo=($('input[name=tipo]:checked')||{}).value,sede=($('input[name=sede]:checked')||{}).value;
+  if(nom.split(' ').length<2||nom.length<6){e.textContent='Escriba su nombre completo con apellidos.';return}
+  if(!/^[A-Za-z0-9][A-Za-z0-9\- ]{4,19}$/.test(id)){e.textContent='Revise su número de cédula o pasaporte.';return}
+  if(!emp||(emp==='otra'&&emp2.length<2)){e.textContent='Elija su empresa.';return}
+  if(!pla||(/^OTR\|/.test(pla)&&pla2.length<2)){e.textContent='Elija su planta.';return}
+  if(!tipo){e.textContent='Elija si el proyecto es eólico o solar.';return}
+  if(!sede){e.textContent='Elija la sede: Tilarán o Liberia.';return}
+  var pp=pla.split('|');
+  P={nom:nom,dt:$('#f-dt').value,id:id,emp:emp==='CMI'?'CMI':emp2,empC:emp==='CMI'?'CMI':'EXT',pla:/^OTR\|/.test(pla)?pla2:pp[1],plaC:pp[0],tipo:tipo,sede:sede};
+  e.textContent='';setQuiz();
+  $('#hola').textContent='¡Bienvenido, '+nom.split(' ')[0]+'!';
+  var k=tipo==='Solar'?'so':'eo';pick($('#asp-chips'),k);renderAsp(k);
+  go(1);
+};
+
+/* ===== aspectos ===== */
+var ASP={
+eo:[["🦅","Aves y murciélagos","Turbinas girando","Pueden chocar con las aspas.","Monitoreo de fauna, avisar los hallazgos y aplicar medidas."],
+["🔊","Ruido","Turbinas y subestación","Molestia a vecinos y a los animales.","Medir con sonómetro y cumplir el Decreto 44486-S."],
+["🌓","Sombra que parpadea","Aspas que pasan frente al sol","Molestia en casas cercanas.","Calcular horas, monitorear y aplicar medidas."],
+["🛢️","Aceites y grasas","Mantenimiento de turbinas y transformadores","Suelo y agua contaminados.","Kit antiderrames, bandejas de contención y protocolo."],
+["🛣️","Caminos y plataformas","Obras y mantenimiento","Pérdida de plantas, erosión y tierra que llega a las quebradas.","Trabajar solo en el área autorizada, hacer drenajes y revegetar."],
+["🧱","Concreto y cimientos","Construcción","El lavado de equipos con concreto contamina suelo y agua.","Zona de lavado con contención. Nunca lavar en quebradas."],
+["🔥","Incendios","Equipos eléctricos y pasto seco","Se queman plantas y hábitat.","Extintores, no fumar ni quemar, revisar equipos."],
+["🧰","Residuos de mantenimiento","Cambio de piezas, filtros y baterías","Contaminación si se mezclan o se botan.","Clasificar en la fuente y entregar bien."],
+["🏞️","Paisaje","Estructuras muy altas","Cambia la vista del lugar.","Buen diseño y diálogo con la comunidad."]],
+so:[["🌿","Quitar la vegetación","Preparar el terreno","Se pierden plantas y refugio de animales.","Limitar el área, rescate autorizado de flora y fauna, y revegetar."],
+["🌧️","Erosión y sedimentos","Mover tierra","La tierra se lava y llega a las quebradas.","Drenajes y barreras para sedimentos."],
+["🔌","Aceites de transformadores e inversores","Operación y mantenimiento","Suelo contaminado si hay derrame.","Contención y kit antiderrames."],
+["♻️","Residuos de obra","Tarimas, plástico, cartón, cables y piezas","Se acumulan y contaminan.","Clasificar y entregar a gestores autorizados."],
+["🔋","Baterías","Almacenamiento y respaldo","Tienen sustancias peligrosas.","Manejarlas como residuo peligroso."],
+["💧","Agua para limpiar paneles","Mantenimiento","Gasto de agua y jabón que llega a cauces.","Usar poca agua y no verter detergente."],
+["🐢","Fauna terrestre","Cercas, vehículos y personal","Atropellos y animales atrapados.","Velocidad baja y avisar los hallazgos."],
+["🔥","Incendios","Pasto seco bajo los paneles y equipos eléctricos","Se queman plantas y hábitat.","Mantener la vegetación baja, extintores y plan de emergencia."],
+["✨","Reflejos","Superficie de los paneles","Deslumbramiento.","Diseño y orientación adecuados."]],
+co:[["🚛","Polvo y gases de vehículos","Tránsito y maquinaria","Aire sucio y molestias.","Baja velocidad, mantenimiento y riego de caminos."],
+["⛽","Combustible","Tanques y maquinaria","Derrames y contaminación.","Almacenar con contención y tener el kit a mano."],
+["🚽","Aguas de baños y comedores","El personal","Pueden contaminar suelo y agua.","Sistemas de tratamiento autorizados."],
+["🗑️","Residuos ordinarios","Oficinas y comedores","Plagas y malos olores.","Separar y entregar."],
+["✅","Positivo: energía limpia","Generar electricidad sin quemar combustibles","Menos gases que calientan el planeta.","Mantener el parque funcionando bien."],
+["✅","Positivo: empleo y comunidad","Obras y operación","Trabajo local y desarrollo.","Buenas relaciones con los vecinos."],
+["✅","Positivo: programas ambientales","Reforestación y educación","Más bosque y más conocimiento.","Participar y colaborar."]]};
+function renderAsp(k){
+  var o='';ASP[k].forEach(function(a){o+='<details class="card"><summary><b style="font-size:26px">'+a[0]+'</b>'+a[1]+'</summary><p><span class="tag">Actividad</span> '+a[2]+'</p><p><span class="tag o">Impacto</span> '+a[3]+'</p><p><span class="tag g">Control</span> '+a[4]+'</p></details>'});
+  $('#asp-list').innerHTML=o;$$('#asp-list > *').forEach(function(c,j){c.style.setProperty('--i',j)});
+}
+chipsSel($('#asp-chips'),renderAsp);pick($('#asp-chips'),'eo');renderAsp('eo');
+
+/* ===== legislación ===== */
+var LEG=[
+["general","Constitución Política, art. 50","Todas las personas tienen derecho a un ambiente sano y equilibrado.","Ningún proyecto puede dañar el ambiente sin responder por ello."],
+["general","Ley Orgánica del Ambiente, N.º 7554","Base de la protección ambiental. Crea la SETENA.","Obliga a estudiar el impacto antes de construir y a prevenir daños."],
+["general","Ley General de Salud, N.º 5395","Protege la salud de las personas.","Prohíbe contaminar agua, aire o suelo de forma que dañe la salud."],
+["eia","Reglamento de Evaluación de Impacto Ambiental (Decreto 31849)","Dice cómo se obtiene la viabilidad ambiental ante SETENA.","Antes de construir se presenta el estudio. Después hay que cumplir los compromisos y reportar avances con el Plan de Gestión Ambiental."],
+["residuos","Ley para la Gestión Integral de Residuos, N.º 8839","Responsabiliza al generador y ordena la gestión de residuos.","Cada persona clasifica en la fuente y entrega bien. No se puede botar ni mezclar."],
+["residuos","Reglamento General a la Ley 8839 (Decreto 37567-S-MINAET-H)","Desarrolla las obligaciones de quienes generan y gestionan residuos.","El parque debe tener programa de manejo, registros y gestores autorizados."],
+["residuos","Reglamento de residuos peligrosos (Decreto 41527-S-MINAE)","Cómo clasificar, rotular, almacenar y entregar los residuos peligrosos.","Se entregan rotulados y pesados, se guardan en bodega adecuada y solo salen con gestores autorizados."],
+["residuos","Reglamento de residuos ordinarios (Decreto 36093-S)","Separación y manejo de los residuos ordinarios.","Lo reciclable se separa y se entrega al servicio autorizado."],
+["residuos","Residuos de manejo especial (Decreto 38272-S) y electrónicos (Decreto 35933-S)","Gestión aparte para llantas, equipos electrónicos y similares.","No van con la basura común ni con los reciclables."],
+["vida","Ley de Conservación de la Vida Silvestre, N.º 7317","La fauna silvestre es patrimonio nacional.","No se caza, captura, toca ni traslada fauna. Se avisa al equipo de ambiente."],
+["vida","Ley de Biodiversidad, N.º 7788","Protege la biodiversidad del país.","Por eso los parques monitorean aves y murciélagos."],
+["vida","Ley Forestal, N.º 7575","Regula la corta de árboles y el uso del suelo con bosque.","Cortar un árbol o cambiar el uso del suelo exige permiso. Se protegen nacientes, ríos y quebradas."],
+["agua","Ley de Aguas, N.º 276 y Reglamento de vertido y reúso de aguas residuales (Decreto 33601)","Protegen el agua y limitan lo que se puede verter.","Prohíbe verter aceites, concreto o aguas sucias a quebradas. Las aguas de baños se tratan."],
+["agua","Reglamento de calidad de aguas superficiales (Decreto 33903-MINAE-S)","Clasifica el agua de ríos y quebradas en cinco clases.","Por eso se toman muestras y se estudian los macroinvertebrados cerca del proyecto."],
+["agua","Reglamento de ruido (Decreto 44486-S)","Fija límites de ruido según la zona y la hora.","Las turbinas deben cumplir. Se mide el ruido cerca de las casas."],
+["trabajo","Código de Trabajo, Título IV (riesgos del trabajo)","La empresa debe proteger a sus trabajadores.","La empresa entrega el EPP y usted debe usarlo."],
+["trabajo","Normas ISO 14001 e ISO 45001","Sistemas de gestión ambiental y de seguridad y salud.","Se auditan los procesos. Por eso se llevan registros."]];
+LEG.push(["quim","Decreto 40457-S · RTCR 481:2015, Etiquetado de productos químicos peligrosos","Obliga a que todo producto químico peligroso tenga etiqueta en español con los elementos del SGA, incluido el pictograma.","Los aceites, combustibles y solventes del parque deben llegar bien etiquetados. No se usa un producto sin etiqueta."],["quim","Decreto 40705-S · RTCR 478:2015, Registro, importación y control de productos químicos","Regula el registro, la importación y el control de los productos químicos peligrosos y adopta el SGA.","Los productos peligrosos se registran con su ficha de datos de seguridad. Pídala al almacén."]);
+LEG.push(["residuos","Reglamento para el transporte terrestre de productos peligrosos (Decreto 24715-MOPT-MEIC-S)","Regula el transporte terrestre de productos peligrosos.","Aplica al traslado de nuestros residuos peligrosos. Cada residuo viaja con su ficha de emergencia."]);
+var LT={all:"Todas",general:"General",eia:"Antes de construir",residuos:"Residuos",vida:"Fauna y flora",agua:"Agua y ruido",quim:"Químicos",trabajo:"Seguridad"};
+var lc='';Object.keys(LT).forEach(function(k,i){lc+='<button class="chip'+(i?'':' sel')+'" data-k="'+k+'">'+LT[k]+'</button>'});
+$('#leg-chips').innerHTML=lc;
+function renderLeg(k){var o='';LEG.forEach(function(l){if(k==='all'||l[0]===k)o+='<details class="card"><summary>'+l[1]+'</summary><p><span class="tag">Dice</span> '+l[2]+'</p><p><span class="tag g">En el parque</span> '+l[3]+'</p></details>'});$('#leg-list').innerHTML=o}
+chipsSel($('#leg-chips'),renderLeg);renderLeg('all');
+
+/* ===== residuos ===== */
+var RS={
+p:{steps:[["Clasifique en la fuente","Es obligación de cada generador."],["Vaya a la bodega de residuos peligrosos y pida ayuda","Pídala en el almacén. Si no hay personal de almacén disponible, acuda al equipo de Medio Ambiente."],["Entregue clasificado, rotulado y pesado","Los tres requisitos son obligatorios."],["Coloque el marchamo","Después de entregar y verificar el residuo."],["Registre la entrega en la app","Así queda el control del residuo."]],note:"<b>Importante:</b> sin clasificar, rotular y pesar, el residuo no se recibe. Los trapos, pads, almohadas y EPP con productos peligrosos también son residuos peligrosos."},
+n:{steps:[["Clasifique en la fuente según la legislación","Valorizables, ordinarios y de manejo especial, cada uno por aparte."],["Vaya al área de residuos y pida ayuda","Pídala en el almacén. Si no hay personal disponible, acuda al equipo de Medio Ambiente."],["Entregue clasificado, rotulado y pesado","Igual que los peligrosos."],["Coloque el marchamo","Después de entregar y verificar el residuo."],["Registre la entrega en la app","Así queda el control del residuo."]],note:"<b>Importante:</b> el mismo protocolo vale para los residuos no peligrosos. La clasificación sigue las categorías de la ley y los colores de la siguiente pantalla."}};
+function renderRes(k){var o='';RS[k].steps.forEach(function(s){o+='<li><b>'+s[0]+'</b>'+s[1]+'</li>'});$('#res-steps').innerHTML=o;$('#res-note').innerHTML=RS[k].note;$$('#res-steps li').forEach(function(c,j){c.style.animation='rise .5s both';c.style.animationDelay=(j*80)+'ms'})}
+chipsSel($('#residuos'),renderRes);renderRes('p');
+
+/* ===== colores ===== */
+var BINC=[
+["🔴","Rojo · Peligrosos","--c-rojo","",["Trapos, guantes, pads y almohadas con aceite o combustible","Filtros de aceite","Envases de aceite, grasa, pintura o solvente con restos","Aerosoles","Baterías y pilas","Tubos fluorescentes","Aceite usado, en recipiente cerrado"],"Cosas limpias o sin contacto con químicos."],
+["🟤","Café · Manejo especial","--c-cafe","",["Llantas usadas","Equipos electrónicos, tarjetas y cargadores","Paneles solares dañados (no los rompa: avise al equipo ambiental)"],"Basura común."],
+["🔵","Azul · Envases","--c-azul","",["Botellas plásticas","Envases tetrabrik","Envases plásticos limpios"],"Envases con aceite, grasa o restos de producto."],
+["🟡","Amarillo · Aluminio y latón","--c-amarillo","#222",["Latas de aluminio","Latas de conservas, atún y similares","Piezas y perfiles de aluminio","Accesorios de latón"],"Piezas con aceite, grasa o químicos: pregunte al equipo ambiental."],
+["⚪","Gris · Papel y cartón","--c-gris","",["Cajas de cartón de repuestos","Papel de oficina","Planos y periódicos"],"Papel mojado, con grasa o con aceite."],
+["🟠","Anaranjado · Vidrio","--c-naranja","#222",["Botellas de vidrio","Frascos de vidrio limpios"],"Frascos con restos de químicos o aceite."],
+["🟢","Verde · Orgánicos","--c-verde","",["Restos de comida","Cáscaras de fruta","Borra de café"],"Plástico, aceite o residuos peligrosos."],
+["⚫","Negro · Ordinarios (no reciclables)","--c-negro","",["Papel higiénico y servilletas usadas","Empaques sucios","Icopor","Residuos de tela sin químicos","Barrido"],"Peligrosos, envases y papel limpios."]];
+$('#bins').innerHTML=BINC.map(function(b){return '<div class="bn" style="border-color:var('+b[2]+')"><div class="bh" style="background:var('+b[2]+');color:'+(b[3]||'#fff')+'"><i>'+b[0]+'</i>'+b[1]+'</div><div class="bb"><p><b>✔ Sí va:</b></p><p>'+b[4].map(function(x){return '<span class="ex">'+x+'</span>'}).join('')+'</p><p class="no"><b>✘ No va:</b> '+b[5]+'</p></div></div>'}).join('');
+
+/* ===== práctica ===== */
+var BTN=[["rojo","🔴 Peligroso","--c-rojo",""],["cafe","🟤 Manejo especial","--c-cafe",""],["azul","🔵 Envases","--c-azul",""],["amarillo","🟡 Aluminio y latón","--c-amarillo","#222"],["gris","⚪ Papel y cartón","--c-gris",""],["naranja","🟠 Vidrio","--c-naranja","#222"],["verde","🟢 Orgánico","--c-verde",""],["negro","⚫ Ordinario","--c-negro",""]];
+var ITEMS=[
+["🧽","Trapo con aceite de la multiplicadora","rojo","Todo lo que tuvo aceite o combustible es residuo peligroso."],
+["🧤","Guantes con restos de combustible","rojo","El EPP contaminado con productos peligrosos es peligroso."],
+["🛢️","Envase de grasa con restos","rojo","Un envase con restos de producto peligroso sigue siendo peligroso."],
+["🔋","Batería usada","rojo","Las baterías son residuos peligrosos."],
+["💡","Tubo fluorescente","rojo","Tiene sustancias peligrosas como mercurio."],
+["🧴","Filtro de aceite usado","rojo","Queda lleno de aceite: es peligroso."],
+["🛞","Llanta usada","cafe","Las llantas usadas son de manejo especial."],
+["💻","Cargador o tarjeta electrónica","cafe","Los residuos electrónicos tienen gestión especial."],
+["🍶","Botella plástica vacía","azul","Los envases plásticos limpios van en azul."],
+["🧃","Envase tetrabrik","azul","El tetrabrik va con los envases, en azul."],
+["🥫","Lata de aluminio","amarillo","El aluminio va en el recipiente amarillo."],
+["🐟","Lata de atún vacía","amarillo","Las latas de conserva, como las de atún, van en el amarillo con el aluminio y el latón."],
+["🔩","Accesorio de latón","amarillo","El latón va con el aluminio, en amarillo."],
+["📦","Caja de cartón de repuestos","gris","El cartón limpio y seco va con el papel."],
+["📄","Papel de oficina","gris","El papel limpio se recicla."],
+["🍾","Botella de vidrio","naranja","El vidrio va en el recipiente anaranjado."],
+["🍌","Cáscara de banano","verde","Es residuo orgánico: va en verde."],
+["🍚","Restos de almuerzo","verde","Es residuo orgánico: va en verde."],
+["🧻","Servilletas y papel higiénico usados","negro","No se reciclan: son ordinarios, en negro."],
+["🍬","Empaque sucio de galletas","negro","Un empaque sucio no se recicla: va en negro."]];
+var cl={q:[],i:0,sc:0};
+function clStart(){cl.q=ITEMS.slice().sort(function(){return Math.random()-.5}).slice(0,8);cl.i=0;cl.sc=0;clShow()}
+function clShow(){
+  var b=$('#cl-box');
+  if(cl.i>=cl.q.length){b.innerHTML='<div class="card" style="text-align:center"><div class="big">'+(cl.sc>=7?'🏆':'👍')+'</div><h3>'+cl.sc+' de '+cl.q.length+' correctas</h3><p>Recuerde: primero pregunte si es peligroso.</p><button class="btn pri" id="clr">Jugar otra vez</button></div>';$('#clr').onclick=clStart;return}
+  var it=cl.q[cl.i],o='<p class="small">Residuo '+(cl.i+1)+' de '+cl.q.length+'</p><div class="card" style="text-align:center"><div class="big">'+it[0]+'</div><h3>'+it[1]+'</h3></div><div class="gb">';
+  BTN.forEach(function(x){o+='<button data-b="'+x[0]+'" style="background:var('+x[2]+');color:'+(x[3]||'#fff')+'">'+x[1]+'</button>'});
+  b.innerHTML=o+'</div><div id="clf"></div>';
+  $$('#cl-box .gb button').forEach(function(btn){btn.onclick=function(){
+    var ok=btn.dataset.b===it[2];if(ok)cl.sc++;
+    $$('#cl-box .gb button').forEach(function(x){x.disabled=true;if(x.dataset.b!==it[2]&&x!==btn)x.style.opacity='.3'});if(!ok)btn.style.opacity='.5';
+    $('#clf').innerHTML='<div class="fb '+(ok?'ok':'no')+'"><b>'+(ok?'¡Correcto!':'Casi.')+'</b> '+it[3]+'</div><button class="btn pri" id="cln">'+(cl.i===cl.q.length-1?'Ver resultado':'Siguiente →')+'</button>';
+    $('#cln').onclick=function(){cl.i++;clShow()}}});
+}
+clStart();
+
+/* ===== SGA y pictogramas ===== */
+var PGS={
+explosivo:'<circle cx="40" cy="68" r="22"/><path d="M54 52 L68 38" stroke="#111" stroke-width="6"/><polygon points="76,4 82,18 96,12 91,26 100,32 88,36 93,48 80,42 70,50 70,37 57,34 68,28 62,15 74,20"/>',
+inflamable:'<path d="M50 4 C60 22 82 34 82 62 C82 82 66 96 50 96 C34 96 18 82 18 62 C18 46 28 38 34 26 C37 38 42 40 45 36 C48 26 44 14 50 4Z"/>',
+comburente:'<circle cx="50" cy="74" r="19" fill="none" stroke="#111" stroke-width="8"/><path d="M50 6 C58 20 72 28 72 42 C72 52 62 58 50 58 C38 58 28 52 28 42 C28 34 34 30 38 22 C40 30 44 32 46 28 C48 20 46 12 50 6Z"/>',
+gas:'<rect x="34" y="30" width="32" height="64" rx="14"/><rect x="44" y="12" width="12" height="22"/><rect x="36" y="6" width="28" height="8" rx="3"/>',
+corrosivo:'<polygon points="8,6 38,6 34,24 12,24"/><polygon points="62,6 92,6 88,24 66,24"/><circle cx="22" cy="34" r="4"/><circle cx="22" cy="46" r="4"/><circle cx="78" cy="34" r="4"/><circle cx="78" cy="46" r="4"/><rect x="4" y="56" width="42" height="12"/><path d="M56 96 L56 72 L64 72 L64 62 L70 62 L70 70 L76 62 L82 62 L82 70 L92 70 L92 96Z"/>',
+toxico:'<circle cx="50" cy="32" r="24"/><rect x="36" y="48" width="28" height="16" rx="3"/><circle cx="40" cy="32" r="6" fill="#fff"/><circle cx="60" cy="32" r="6" fill="#fff"/><path d="M50 40 L45 50 H55Z" fill="#fff"/><path d="M14 72 L86 96 M86 72 L14 96" stroke="#111" stroke-width="9" stroke-linecap="round"/>',
+salud:'<circle cx="46" cy="20" r="14"/><path d="M10 96 C10 52 28 38 46 38 C64 38 82 52 82 96Z"/><polygon fill="#fff" points="46,52 50,62 61,62 52,69 56,80 46,73 36,80 40,69 31,62 42,62"/>',
+exclamacion:'<rect x="42" y="4" width="16" height="58" rx="6"/><circle cx="50" cy="82" r="10"/>',
+ambiente:'<path d="M2 72 Q20 54 40 72 Q20 90 2 72Z"/><path d="M40 72 L54 62 L54 82Z"/><circle cx="12" cy="70" r="2.5" fill="#fff"/><polygon points="76,6 94,44 58,44"/><polygon points="76,28 98,64 54,64"/><rect x="72" y="64" width="8" height="28"/>'};
+function pict(k,sz){return '<svg viewBox="0 0 100 100" width="'+sz+'" height="'+sz+'" aria-hidden="true"><polygon points="50,3 97,50 50,97 3,50" fill="#fff" stroke="#d0201a" stroke-width="7"/><g transform="translate(28 28) scale(.44)" fill="#111">'+PGS[k]+'</g></svg>'}
+var PG=[
+["explosivo","Explosivo","Puede explotar con calor, golpe o fricción.","Poco frecuente en parques."],
+["inflamable","Inflamable","Se prende fácilmente con chispas o calor.","Solventes, pinturas, aerosoles y combustibles."],
+["comburente","Comburente","Alimenta el fuego y hace que arda más fuerte.","Oxígeno de cilindros de soldadura."],
+["gas","Gas a presión","Gas dentro de un cilindro o envase. Puede explotar con calor.","Cilindros de gas y aerosoles."],
+["corrosivo","Corrosivo","Quema la piel y los ojos y daña los metales.","Ácido de baterías y limpiadores fuertes."],
+["toxico","Muy tóxico","Puede causar la muerte si se respira, se traga o toca la piel.","Algunos solventes y productos muy peligrosos."],
+["salud","Peligro para la salud","Puede dañar a largo plazo: pulmones, órganos o causar cáncer.","Algunos solventes y aceites."],
+["exclamacion","Irritante o nocivo","Irrita la piel y los ojos o hace daño en pequeñas dosis.","Detergentes, pinturas y solventes."],
+["ambiente","Peligro para el ambiente","Daña el agua y los animales acuáticos.","Aceites, combustibles y otros productos que no deben llegar a quebradas."]];
+$('#pg-grid').innerHTML=PG.map(function(p,i){return '<button class="tile pgt" data-k="'+i+'">'+pict(p[0],64)+'<span style="font-size:13px;line-height:1.2">'+p[1]+'</span></button>'}).join('');
+function pgInfo(i){var p=PG[i];$$('#pg-grid .tile').forEach(function(t,k){t.style.borderColor=(k===i)?'var(--pri)':'';t.style.background=(k===i)?'var(--sf2)':''});$('#pg-info').innerHTML='<div class="ibox"><div>'+pict(p[0],86)+'</div><div><h3 style="margin:0">'+p[1]+'</h3><p style="margin:.2em 0"><b>Qué avisa:</b> '+p[2]+'</p><p style="margin:.2em 0"><b>Por ejemplo:</b> '+p[3]+'</p></div></div>'}
+$$('#pg-grid .tile').forEach(function(t){t.onclick=function(){pgInfo(+t.dataset.k)}});pgInfo(1);
+$('#lab-pg').innerHTML=pict('inflamable',50)+pict('exclamacion',50)+'<button class="ln" data-k="1">2</button>';
+var LAB=[["Nombre del producto","Debe coincidir con el nombre de la hoja de seguridad."],["Pictogramas","Rombos con borde rojo y un símbolo que muestra el tipo de peligro. Aquí: inflamable e irritante."],["Palabra de advertencia","PELIGRO es para lo más grave. ATENCIÓN es para lo menos grave."],["Indicaciones de peligro (códigos H)","Frases que dicen qué peligro tiene el producto."],["Consejos de prudencia (códigos P)","Qué hacer para usarlo, guardarlo y actuar en una emergencia."],["Proveedor","Quién fabrica o vende el producto, y su teléfono de emergencia."]];
+function labInfo(i){$$('.lab .ln').forEach(function(b){b.style.outline=(+b.dataset.k===i)?'3px solid var(--pri)':''});$('#lab-info').innerHTML='<b>'+(i+1)+'. '+LAB[i][0]+'</b><p style="margin:.3em 0">'+LAB[i][1]+'</p>'}
+$$('.lab .ln').forEach(function(b){b.onclick=function(){labInfo(+b.dataset.k)}});labInfo(1);
+var pg={q:[],i:0,sc:0};
+function pgStart(){pg.q=PG.slice().sort(function(){return Math.random()-.5}).slice(0,6);pg.i=0;pg.sc=0;pgShow()}
+function pgShow(){
+  var b=$('#pg-game');
+  if(pg.i>=pg.q.length){b.innerHTML='<div class="card" style="text-align:center"><div class="big">'+(pg.sc>=5?'🏆':'👍')+'</div><h3>'+pg.sc+' de '+pg.q.length+' correctas</h3><button class="btn pri" id="pgr">Jugar otra vez</button></div>';$('#pgr').onclick=pgStart;return}
+  var q=pg.q[pg.i],opts=[q[1]];
+  PG.slice().sort(function(){return Math.random()-.5}).forEach(function(p){if(opts.length<3&&p[1]!==q[1])opts.push(p[1])});
+  opts.sort(function(){return Math.random()-.5});
+  b.innerHTML='<p class="small">Pictograma '+(pg.i+1)+' de '+pg.q.length+'</p><div class="card" style="text-align:center">'+pict(q[0],130)+'</div>'+opts.map(function(t){return '<button class="opt" data-t="'+t+'">'+t+'</button>'}).join('')+'<div id="pgf"></div>';
+  $$('#pg-game .opt').forEach(function(btn){btn.onclick=function(){
+    var ok=btn.dataset.t===q[1];if(ok)pg.sc++;
+    $$('#pg-game .opt').forEach(function(x){x.disabled=true;if(x.dataset.t===q[1])x.classList.add('ok')});if(!ok)btn.classList.add('no');
+    $('#pgf').innerHTML='<div class="fb '+(ok?'ok':'no')+'"><b>'+(ok?'¡Correcto!':'Casi.')+'</b> '+q[1]+': '+q[2]+'</div><button class="btn pri" id="pgn">'+(pg.i===pg.q.length-1?'Ver resultado':'Siguiente →')+'</button>';
+    $('#pgn').onclick=function(){pg.i++;pgShow()}}});
+}
+pgStart();
+
+/* ===== fichas de emergencia (SIGREP) ===== */
+var plc=0;
+function placa(c,sz){
+  plc++;var id='cp'+plc,fl='<g transform="translate(36 20) scale(.28)" fill="#111"><path d="M50 4 C60 22 82 34 82 62 C82 82 66 96 50 96 C34 96 18 82 18 62 C18 46 28 38 34 26 C37 38 42 40 45 36 C48 26 44 14 50 4Z"/></g>',i;
+  var b='<svg viewBox="0 0 100 100" width="'+(sz||76)+'" height="'+(sz||76)+'" aria-hidden="true"><defs><clipPath id="'+id+'"><polygon points="50,6 94,50 50,94 6,50"/></clipPath></defs><polygon points="50,2 98,50 50,98 2,50" fill="#fff" stroke="#111" stroke-width="3"/>';
+  if(c==='3'||c==='2'){b+='<polygon points="50,6 94,50 50,94 6,50" fill="#d0201a"/>'+fl+'<text x="50" y="82" font-size="16" font-weight="800" text-anchor="middle" fill="#111">'+c+'</text>'}
+  else if(c==='4.1'){b+='<g clip-path="url(#'+id+')"><rect width="100" height="100" fill="#fff"/>';for(i=0;i<8;i++)b+='<rect x="'+(i*12.5)+'" y="0" width="6.25" height="100" fill="#d0201a"/>';b+='</g>'+fl+'<text x="50" y="82" font-size="16" font-weight="800" text-anchor="middle" fill="#111">4</text>'}
+  else if(c==='8'){b+='<polygon points="6,50 94,50 50,6" fill="#fff"/><polygon points="6,50 94,50 50,94" fill="#111"/><rect x="38" y="24" width="8" height="13" fill="#111"/><rect x="54" y="24" width="8" height="13" fill="#111"/><text x="50" y="82" font-size="16" font-weight="800" text-anchor="middle" fill="#fff">8</text>'}
+  else{b+='<g clip-path="url(#'+id+')"><rect width="100" height="100" fill="#fff"/>';for(i=0;i<7;i++)b+='<rect x="'+(8+i*12.5)+'" y="6" width="5" height="44" fill="#111"/>';b+='</g><text x="50" y="82" font-size="16" font-weight="800" text-anchor="middle" fill="#111">9</text><path d="M42 85 H58" stroke="#111" stroke-width="2"/>'}
+  return b+'</svg>';
+}
+var PLC=[["3","Líquido inflamable","Pinturas y disolventes."],["4.1","Sólido inflamable","EPP, cartón y tierra con hidrocarburos."],["8","Corrosivo","Baterías de níquel-cadmio."],["9","Peligro diverso","Aceites, filtros, fluorescentes y otros: peligrosos para el ambiente."],["2","Gas","Aerosoles."]];
+$('#pl-grid').innerHTML=PLC.map(function(p){return '<div class="card" style="margin:0;padding:8px">'+placa(p[0],70)+'<div style="font-size:13px;font-weight:700;line-height:1.2">Clase '+p[0]+'<br>'+p[1]+'</div><div class="small" style="font-size:12px">'+p[2]+'</div></div>'}).join('');
+var FIC=[
+["🧽","EPP y absorbentes contaminados","MS-DPRSA-USA-FE-655-2024","3175","4.1","II","40","133","Sólido que contiene líquido inflamable, N.E.P.","150202*","Equipo de protección, cartón, papel y trapos con hidrocarburos, resinas, pinturas, solventes, adhesivos o aceites.","Puede incendiarse por fricción, chispas o llamas. Puede soltar vapores irritantes (COV).","Lugar fresco y ventilado, lejos del calor y de las fuentes de ignición.","Oxidantes fuertes y agua (genera lixiviados).","25 m"],
+["📦","Cartón y empaques contaminados","MS-DPRSA-USA-FE-0850-2024","3175","4.1","II","40","133","Sólido que contiene líquido inflamable, N.E.P.","150202*","Cartón y material de embalaje con hidrocarburos, resinas, pinturas, solventes, adhesivos o aceites.","Puede incendiarse por fricción, chispas o llamas. Puede soltar vapores irritantes (COV).","Lugar fresco y ventilado, lejos del calor y de las fuentes de ignición.","Oxidantes fuertes y agua (genera lixiviados).","25 m"],
+["🌍","Tierra contaminada","MS-DPRSA-USA-FE-0852-2024","3175","4.1","II","40","133","Sólido que contiene líquido inflamable, N.E.P.","150202*, 170503*","Tierra, arena y piedras con sustancias peligrosas, y masas filtrantes o absorbentes usadas.","Puede incendiarse por fricción, chispas o llamas. Puede soltar vapores irritantes (COV).","Lugar fresco y ventilado, lejos de fuentes de ignición. Verifique la compatibilidad con lo que carga el vehículo.","Oxidantes fuertes y agua (genera lixiviados).","25 m"],
+["🛢️","Aceite usado","MS-DPRSA-USA-FE-656-2024","3082","9","III","90","171","Sustancia líquida peligrosa para el medio ambiente, N.E.P.","130111*, 130113*, 130206*, 130208*","Aceites sintéticos de motor, de transmisión mecánica y lubricantes usados. Líquido viscoso con olor a hidrocarburo.","Puede incendiarse. No se mezcla con agua. Si se derrama contamina agua y suelo, e irrita la piel y los ojos.","Alejado del calor y de las fuentes de ignición.","Calor, oxidantes fuertes y agua.","50 m si es líquido"],
+["🔋","Baterías de níquel-cadmio","MS-DPRSA-USA-FE-657-2024","2795","8","N.A.","80","154","Acumuladores eléctricos de electrolito líquido alcalino.","160602*, 200133*","Baterías usadas de níquel-cadmio.","Su electrolito es corrosivo. Puede soltar vapores o líquidos corrosivos que irritan la piel. Si se sobrecalientan sueltan vapores; en un incendio salen vapores con cadmio y níquel.","Proteja del calor y del sol directo. No pase de 85 °C.","Humedad y agua.","50 m si es líquido"],
+["🥫","Envases contaminados (metal o plástico)","MS-DPRSA-USA-FE-658-2024","3509","9","N.A.","90","171","Embalajes o envases desechados, vacíos, sin limpiar.","130111*, 130113*, 130206*, 130208*","Envases de metal o plástico vacíos sin limpiar, con hidrocarburos, pinturas, solventes, aceites, resinas o aditivos de construcción.","Quedan restos con fuerte olor. No se mezclan con agua y pueden soltar vapores (COV).","Cerrados, en lugar ventilado y bajo techo.","Agua, calor y oxidantes.","50 m si es líquido"],
+["💧","Agua con hidrocarburos","MS-DPRSA-USA-FE-659-2024","3082","9","III","90","171","Sustancia líquida peligrosa para el medio ambiente, N.E.P.","130506*, 130507*, 130508*, 190810*, 191307*","Agua con aceite hidráulico, gasolina, diésel o grasas de motor.","Contamina si se derrama. El calor puede encenderla si hay más contaminante que agua.","Lugar fresco y ventilado, no a la intemperie. Use herramientas que no hagan chispas y equipo conectado a tierra.","Calor y fuentes de ignición.","50 m si es líquido"],
+["💡","Fluorescentes","MS-DPRSA-USA-FE-660-2024","3077","9","III","90","171","Sustancia sólida peligrosa para el medio ambiente, N.E.P.","200121*","Lámparas fluorescentes y otros residuos con mercurio.","TÓXICO si se rompen: sueltan mercurio. Si se calientan sueltan humos tóxicos.","Sin romperlas, en lugar seco.","Agua y humedad.","25 m si es sólido"],
+["🧴","Filtros de aceite","MS-DPRSA-USA-FE-661-2024","3077","9","III","90","171","Sustancia sólida peligrosa para el medio ambiente, N.E.P.","160107*","Filtros de aceite usados, con aceite remanente.","Sueltan aceite que no se mezcla con agua y contamina.","Área ventilada, no a la intemperie. Herramientas que no hagan chispas.","Agua, ácidos, oxidantes fuertes y calor.","25 m si es sólido"],
+["🧪","Polímeros y adhesivos","MS-DPRSA-USA-FE-662-2024","3082","9","III","90","171","Sustancia líquida peligrosa para el medio ambiente, N.E.P.","070601*, 080415*, 120301*, 160709*, 161001*, 161003*","Residuos de polímeros y adhesivos con isocianatos residuales. Líquido turbio con sólidos.","Pueden polimerizar. Contaminan el agua si se derraman.","Áreas ventiladas, no a la intemperie, en recipientes tapados y sobre bandejas de contención.","Agua. Evite cuerpos de agua limpios y agua potable.","50 m si es líquido"],
+["🚰","Lodos de aguas residuales","MS-DPRSA-USA-FE-663-2024","3077","9","III","90","171","Sustancia sólida peligrosa para el medio ambiente, N.E.P.","190813*, 190811*","Lodos de trampas de grasa y fondos de tanque. Pastosos, oscuros y de olor fuerte.","Sueltan vapores orgánicos (COV). Contaminan si llegan al agua.","Áreas ventiladas, no a la intemperie, en recipientes tapados y sobre bandejas de contención.","Agua y calor.","25 m si es sólido"],
+["🧯","Aerosoles","MS-DPRSA-USA-FE-664-2024","1950","2","N.A.","N.A.","126","Aerosoles.","150111*","Envases metálicos de aerosoles: pinturas, desodorantes ambientales, insecticidas y adhesivos.","Contienen gas inflamable a presión. Con calor o fuego pueden soltar su contenido con violencia.","Lejos del calor y de las fuentes de ignición.","Calor, oxidantes fuertes y agua.","100 m"],
+["⚙️","Aceites y grasas","MS-DPRSA-USA-FE-665-2024","3077","9","III","90","171","Sustancia sólida peligrosa para el medio ambiente, N.E.P.","120112*, 200126*","Grasas de motores, reductores, acoples y otros equipos que se lubrican. Material semiduro de color ámbar.","No se mezclan con agua. Contaminan el suelo y el agua.","Lugar fresco y ventilado, no a la intemperie. Herramientas que no hagan chispas.","Calor, fuentes de ignición fuertes, oxidantes y agua.","25 m si es sólido"],
+["🖨️","Cartuchos de tinta o tóner","MS-DPRSA-USA-FE-666-2024","3077","9","III","90","171","Sustancia sólida peligrosa para el medio ambiente, N.E.P.","080317*","Cartuchos de tinta y tóner usados.","Pueden soltar vapores (COV). No se mezclan con agua.","Área ventilada, no a la intemperie. Herramientas que no hagan chispas.","Agua, calor y oxidantes fuertes.","25 m si es sólido"],
+["🎨","Pinturas y disolventes","MS-DPRSA-USA-FE-667-2024","1263","3","II","33","128","Pintura o productos para pintura.","080111*, 200127*","Restos de pintura líquida, solventes y diluyentes (xileno, tolueno, metanol, etilbenceno).","Sus vapores pueden formar mezclas explosivas con el aire. No deben llegar al suelo, al alcantarillado ni a cursos de agua.","Lugar fresco y ventilado, sobre tarima resistente, en tambor de metal en buen estado y bien cerrado. Revise fugas. Herramientas a prueba de chispas.","Ácidos, bases, oxidantes y calor.","50 m"]];
+$('#fi-grid').innerHTML=FIC.map(function(f,i){return '<button class="tile" data-k="'+i+'"><b>'+f[0]+'</b><span style="font-size:14px">'+f[1]+'</span></button>'}).join('');
+function fiInfo(i){
+  var f=FIC[i];$$('#fi-grid .tile').forEach(function(t,k){t.style.borderColor=(k===i)?'var(--pri)':'';t.style.background=(k===i)?'var(--sf2)':''});
+  $('#fi-info').innerHTML='<div class="ibox"><div>'+placa(f[4],84)+'</div><div><h3 style="margin:0">'+f[0]+' '+f[1]+'</h3><p class="small" style="margin:.2em 0">Ficha '+f[2]+'</p></div></div><p style="margin:.5em 0"><span class="ex">ONU '+f[3]+'</span><span class="ex">Clase '+f[4]+'</span><span class="ex">Grupo '+f[5]+'</span><span class="ex">NIP '+f[6]+'</span><span class="ex">Guía '+f[7]+'</span></p><p><b>Nombre en la ficha:</b> '+f[8]+'</p><p><b>Qué es:</b> '+f[10]+'</p><p><b>Su peligro:</b> '+f[11]+'</p><p><b>Cómo se guarda:</b> '+f[12]+'</p><p><b>Evite juntarlo con:</b> '+f[13]+'</p><p><b>En un accidente:</b> llame al 9-1-1 y aísle el área como mínimo <b>'+f[14]+'</b>.</p><p class="small">Código(s) del residuo: '+f[9]+'</p>';
+}
+$$('#fi-grid .tile').forEach(function(t){t.onclick=function(){fiInfo(+t.dataset.k)}});fiInfo(3);
+var CLN={"3":"Clase 3 · Líquido inflamable","4.1":"Clase 4.1 · Sólido inflamable","8":"Clase 8 · Corrosivo","9":"Clase 9 · Peligro diverso (ambiente)","2":"Clase 2 · Gas (aerosol)"};
+var fg={q:[],i:0,sc:0};
+function fgStart(){fg.q=FIC.slice().sort(function(){return Math.random()-.5}).slice(0,6);fg.i=0;fg.sc=0;fgShow()}
+function fgShow(){
+  var b=$('#fi-game');
+  if(fg.i>=fg.q.length){b.innerHTML='<div class="card" style="text-align:center"><div class="big">'+(fg.sc>=5?'🏆':'👍')+'</div><h3>'+fg.sc+' de '+fg.q.length+' correctas</h3><button class="btn pri" id="fgr">Jugar otra vez</button></div>';$('#fgr').onclick=fgStart;return}
+  var q=fg.q[fg.i];
+  b.innerHTML='<p class="small">Residuo '+(fg.i+1)+' de '+fg.q.length+'</p><div class="card" style="text-align:center"><div class="big">'+q[0]+'</div><h3>'+q[1]+'</h3></div>'+Object.keys(CLN).map(function(k){return '<button class="opt" data-c="'+k+'">'+CLN[k]+'</button>'}).join('')+'<div id="fgf"></div>';
+  $$('#fi-game .opt').forEach(function(btn){btn.onclick=function(){
+    var ok=btn.dataset.c===q[4];if(ok)fg.sc++;
+    $$('#fi-game .opt').forEach(function(x){x.disabled=true;if(x.dataset.c===q[4])x.classList.add('ok')});if(!ok)btn.classList.add('no');
+    $('#fgf').innerHTML='<div class="fb '+(ok?'ok':'no')+'"><b>'+(ok?'¡Correcto!':'Casi.')+'</b> Según la ficha, es clase '+q[4]+' (ONU '+q[3]+').</div><button class="btn pri" id="fgn">'+(fg.i===fg.q.length-1?'Ver resultado':'Siguiente →')+'</button>';
+    $('#fgn').onclick=function(){fg.i++;fgShow()}}});
+}
+fgStart();
+
+/* ===== derrames: puntos ===== */
+var HOT=[
+{x:130,y:55,n:"Góndola",e:"⚙️",t:"Aceite de la multiplicadora, aceite hidráulico y grasas.",a:"Solo personal autorizado y capacitado para trabajo en altura. Contenga con almohadillas para que no gotee hacia la torre. Avise de inmediato."},
+{x:130,y:190,n:"Base de la torre",e:"🏗️",t:"Aceite que baja por la torre y fugas de equipos de mantenimiento.",a:"Ponga cordones alrededor, proteja el suelo y los drenajes y limpie según el tipo de superficie."},
+{x:222,y:176,n:"Transformador",e:"🔌",t:"Aceite aislante de transformadores y subestaciones.",a:"No se acerque a equipo con energía. Solo personal autorizado. Revise que haya contención y avise de inmediato."},
+{x:300,y:204,n:"Caminos y bodegas",e:"🚛",t:"Combustible y aceite de camiones, grúas y maquinaria, y productos guardados.",a:"Contenga en la ruta por donde corre el líquido, aléjelo de cunetas y quebradas y use el kit."}];
+var hs='',hc='';
+HOT.forEach(function(h,i){hs+='<g class="hotg" data-k="'+i+'" style="cursor:pointer"><circle class="pulse" cx="'+h.x+'" cy="'+h.y+'" r="11" fill="#d9822b" opacity=".9"/><text x="'+h.x+'" y="'+(h.y+4)+'" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" pointer-events="none">'+(i+1)+'</text></g>';hc+='<button class="chip'+(i?'':' sel')+'" data-k="'+i+'">'+(i+1)+'. '+h.n+'</button>'});
+$('#hots').innerHTML=hs;$('#hot-chips').innerHTML=hc;
+function hot(k){var h=HOT[k];$$('#hot-chips .chip').forEach(function(c,i){c.classList.toggle('sel',i===+k)});$('#hot-info').innerHTML='<h3>'+h.e+' '+h.n+'</h3><p><b>Qué se puede derramar:</b> '+h.t+'</p><p><b>Qué hacer:</b> '+h.a+'</p>'}
+chipsSel($('#hot-chips'),hot);$$('.hotg').forEach(function(g){g.onclick=function(){hot(g.dataset.k)}});hot(0);
+
+/* ===== materiales ===== */
+var MT={kit:"🧰 Kit",bar:"🚧 Barreras",alg:"🌊 Algas",bio:"🦠 Bioremediación"};
+var mc='';Object.keys(MT).forEach(function(k,i){mc+='<button class="chip'+(i?'':' sel')+'" data-k="'+k+'">'+MT[k]+'</button>'});$('#mat-chips').innerHTML=mc;
+var KIT=[["🧻","Almohadillas, hojas y rollos absorbentes"],["🐍","Cordones o “salchichas” de contención"],["🪣","Adsorbente de algas"],["🧴","Bioremediador"],["🛍️","Bolsas y recipientes rotulados para residuo peligroso"],["🦺","EPP: guantes, gafas, respirador y overol"],["🥄","Palas y escobillas que no hagan chispa"],["🕳️","Cobertores para drenajes"],["🚧","Cinta de peligro y conos"],["📄","Instrucciones y formato de reporte"]];
+function ico(k){
+  var a='<svg viewBox="0 0 80 40" width="72" height="36" aria-hidden="true">';
+  var m={
+  cord:'<rect x="6" y="14" width="68" height="12" rx="6" fill="#e0c030" stroke="#8a6d00"/><path d="M14 14 v12 M26 14 v12 M38 14 v12 M50 14 v12 M62 14 v12" stroke="#8a6d00" opacity=".5"/>',
+  alm:'<rect x="12" y="8" width="56" height="24" rx="3" fill="#cfd5d9" stroke="#667"/><path d="M12 14h56M12 20h56M12 26h56" stroke="#98a" stroke-dasharray="3 3"/>',
+  flot:'<path d="M0 28 q10 -6 20 0 t20 0 t20 0 t20 0 V40 H0Z" fill="#3a8fc7"/><rect x="8" y="14" width="64" height="12" rx="6" fill="#e08a1f" stroke="#7a3e00"/>',
+  dique:'<path d="M6 32 L18 10 H62 L74 32Z" fill="#8a949c" stroke="#556"/><path d="M26 32 L30 10 M54 32 L50 10" stroke="#556" opacity=".5"/>',
+  cob:'<circle cx="40" cy="20" r="15" fill="#9aa39e" stroke="#445"/><path d="M28 20h24M40 8v24M31 11l18 18M49 11L31 29" stroke="#445" opacity=".6"/>',
+  ban:'<path d="M8 12 H72 L66 32 H14Z" fill="#c0392b" stroke="#6a1b12"/><rect x="26" y="4" width="28" height="8" rx="2" fill="#555"/>'};
+  return a+m[k]+'</svg>';
+}
+var BAR=[["cord","Cordones o “salchichas”","Contienen y desvían derrames sobre el suelo. Se colocan alrededor o en la ruta del líquido."],["alm","Almohadillas, hojas y rollos","Absorben goteos y derrames pequeños bajo equipos y en pisos."],["flot","Barreras flotantes","Contienen aceite sobre el agua. Solo con apoyo del equipo ambiental."],["dique","Diques o bermas portátiles","Contienen volúmenes más grandes en plataformas y zonas de maquinaria."],["cob","Cobertores de drenaje","Tapan alcantarillas y cunetas para proteger el agua."],["ban","Bandejas y contención secundaria","Evitan que un derrame salga del área de almacenamiento."]];
+var MB={
+kit:function(){var o='<p class="lead">Toque cada elemento para marcarlo cuando revise su kit.</p><div class="grid2">';KIT.forEach(function(k){o+='<button class="tile kit" style="flex-direction:column;align-items:flex-start"><b>'+k[0]+'</b><span>'+k[1]+'</span></button>'});return o+'</div><div class="call"><b>Revise su kit al empezar el turno:</b> completo, sellado y a mano. Si usa algo, avise para reponerlo.</div>'},
+bar:function(){return '<p class="lead">Una barrera detiene el avance del derrame. Pruébelo.</p><div class="card"><svg class="dm" id="dm" viewBox="0 0 300 150" role="img" aria-label="Simulación de un derrame que avanza y una barrera que lo detiene"><rect width="300" height="150" fill="var(--sf2)" rx="8"/><ellipse class="pud" cx="150" cy="78" rx="40" ry="18"/><ellipse class="brr" cx="150" cy="78" rx="64" ry="31" fill="none" stroke="#e08a1f" stroke-width="6"/></svg><div class="row" style="margin-top:8px"><button class="btn" id="dgo">▶ Ver avanzar</button><button class="btn pri" id="dhd">🚧 Colocar barrera</button><button class="btn" id="drs">↺</button></div></div><h3>Gama de barreras</h3>'+BAR.map(function(x){return '<details class="card"><summary>'+ico(x[0])+x[1]+'</summary><p>'+x[2]+'</p></details>'}).join('')+'<p class="small">Muchos fabricantes usan colores: gris para uso general, blanco solo para aceites y amarillo para químicos. Confirme siempre en la ficha del producto.</p>'},
+alg:function(){return '<div class="card"><div class="big">🌊</div><h3>Absorbentes a base de algas</h3><p>Se hacen con algas procesadas. Adsorben aceites y combustibles. Son una opción de origen natural frente a los absorbentes sintéticos.</p></div><div class="grid2"><div class="card"><b>✅ Ventajas</b><p>Origen natural. Muy útiles en suelo, plataformas y cerca de zonas sensibles.</p></div><div class="card"><b>✅ En suelo poroso</b><p>En lastre, tierra o pasto no hace falta recogerlo. Se complementa con bioremediador.</p></div></div><div class="card"><b>⚠️ Con viento fuerte</b><p>Puede dispersarse y no funcionar bien. Use también pads y barreras.</p></div><p class="small">La capacidad y el comportamiento con agua cambian según el producto. Siga la ficha técnica del fabricante.</p>'},
+bio:function(){return '<div class="card"><div class="big">🦠</div><h3>Bioremediadores</h3><p>Son productos con microorganismos o enzimas que ayudan a degradar el aceite que queda en el suelo o en la superficie.</p></div><ol class="steps"><li><b>Primero contenga y absorba</b>Con adsorbente de algas en superficie porosa, o con pads y barreras en superficie no porosa.</li><li><b>Luego aplique el bioremediador</b>Sobre lo que quedó, para limpiar y degradar el producto.</li><li><b>Dé seguimiento</b>El equipo ambiental revisa el avance.</li></ol><div class="call red"><b>Derrame de más de 200 litros:</b> además se hace análisis de suelo y, si el producto se filtró sobre lo permitido, remediación; o se excava y se envía a un gestor autorizado.</div>'}};
+function renderMat(k){$('#mat-body').innerHTML=MB[k]();
+  if(k==='kit')$$('.kit').forEach(function(b){b.onclick=function(){b.classList.toggle('sel');b.style.borderColor=b.classList.contains('sel')?'var(--pri)':'';b.style.background=b.classList.contains('sel')?'var(--sf2)':''}});
+  if(k==='bar'){var d=$('#dm');$('#dgo').onclick=function(){d.classList.remove('held');void d.getBoundingClientRect();d.classList.add('go')};$('#dhd').onclick=function(){d.classList.add('go');d.classList.add('held')};$('#drs').onclick=function(){d.classList.remove('go','held')}}}
+chipsSel($('#mat-chips'),renderMat);renderMat('kit');
+
+
+/* ===== derrames: según la superficie ===== */
+var DER={
+por:{why:"🪨 <b>Superficie porosa:</b> lastre, tierra, pasto o similar. El producto se mete en el suelo.",steps:[["Cubra la mancha con adsorbente de algas","Es lo ideal en superficie porosa."],["Si la fuga sigue, coloque pads o almohadas","Al mismo tiempo, para frenar el goteo."],["Limpie después con bioremediador","Ayuda a degradar lo que queda en el suelo."],["Si usó adsorbente de algas, no hace falta recogerlo","Los pads y almohadas sí se recogen y se entregan como residuo peligroso."]],note:"<b>⚠️ Con viento fuerte</b> el adsorbente puede dispersarse. Mire la pestaña de viento."},
+nopor:{why:"🧱 <b>Superficie no porosa:</b> concreto, asfalto o piso liso. El producto se queda arriba y corre.",steps:[["Coloque pads o almohadas sobre el derrame","Absorben el producto de la superficie."],["Proteja el avance con barreras","Cordones alrededor y cobertores en los drenajes, para que no se extienda."],["Limpie con bioremediador","Para lo que quede en la superficie."],["Recoja los pads y almohadas usados","Entréguelos como residuo peligroso."]],note:"<b>Ojo:</b> si el producto llega a una cuneta o quebrada, avise de inmediato."},
+viento:{why:"🌬️ <b>Viento fuerte:</b> el adsorbente puede dispersarse y no funcionar bien.",steps:[["Tenga precaución con el adsorbente","El viento puede esparcirlo y dejarlo sin efecto."],["Contenga con pads, almohadas y barreras","No dependa solo del adsorbente."],["Consulte al equipo de gestión ambiental","Ellos le indican la mejor opción para esa situación."]],note:"<b>Siempre:</b> siga avisando a su jefatura y al equipo de gestión ambiental."},
+grande:{why:"🛢️ <b>Derrame de más de 200 litros:</b> es un derrame muy grande.",steps:[["Contenga y avise de inmediato","A su jefatura y al equipo de gestión ambiental."],["Se hace análisis de suelo","Para saber si el producto se filtró y cuánto hay."],["Si se filtró y la concentración supera lo permitido","Se hace la remediación posterior del suelo."],["En su defecto: excavar y retirar el material contaminado","Se envía a tratamiento con un gestor autorizado."]],note:"<b>Importante:</b> no lo maneje solo. Aléjese si no puede controlarlo con su kit y su EPP."}};
+function renderDer(k){var d=DER[k];$('#der-body').innerHTML='<div class="card" style="background:var(--sf2)">'+d.why+'</div><ol class="steps">'+d.steps.map(function(s){return '<li><b>'+s[0]+'</b>'+s[1]+'</li>'}).join('')+'</ol><div class="call">'+d.note+'</div>';$$('#der-body li').forEach(function(c,j){c.style.animation='rise .5s both';c.style.animationDelay=(j*80)+'ms'})}
+chipsSel($('#der-chips'),renderDer);renderDer('por');
+var DVK={por:'derPor',nopor:'derNoPor',viento:'derViento',grande:'derGrande'};
+function renderDerVid(k){
+  derK=k;if(derP){derP.stop();derP=null}
+  $('#dv-body').innerHTML='<div id="dv-v"></div>';
+  derP=new Player($('#dv-v'),DVK[k]);if(S[cur].id==='derrame-video')derP.start();
+}
+chipsSel($('#dv-chips'),renderDerVid);
+
+/* ===== EPP ===== */
+var EP=[["⛑️","Casco","Protege la cabeza de golpes y de objetos que caen."],["👓","Gafas o careta","Protegen los ojos de salpicaduras."],["😷","Respirador para vapores","Protege de vapores. Debe tener los cartuchos correctos."],["🧤","Guantes resistentes a químicos","Nitrilo o el que indique la HDS. Los guantes de tela no sirven."],["🥼","Overol o ropa de protección","Cubre piel y ropa de salpicaduras."],["🥾","Botas de seguridad","Cerradas y resistentes a aceites."],["🦺","Chaleco reflectivo","Para que lo vean los vehículos y la maquinaria."],["🧗","Arnés y línea de vida","Solo para trabajo en altura. Personal autorizado y capacitado."]];
+var EM=[[80,24],[116,66],[44,84],[16,156],[142,112],[138,212],[22,118],[80,122]];
+$('#eppm').innerHTML=EM.map(function(m,i){return '<g class="epm" data-k="'+i+'" style="cursor:pointer"><circle class="pulse" cx="'+m[0]+'" cy="'+m[1]+'" r="11" fill="#d9822b"/><text x="'+m[0]+'" y="'+(m[1]+4)+'" text-anchor="middle" font-size="12" font-weight="800" fill="#fff" pointer-events="none">'+(i+1)+'</text></g>'}).join('');
+$$('.epm').forEach(function(g){g.onclick=function(){var e=EP[+g.dataset.k];$('#epp-tip').innerHTML='<b style="font-size:20px">'+e[0]+' '+e[1]+'</b><br>'+e[2]}});
+var ES=[
+{n:"Derrame menor de aceite o grasa en el suelo, al aire libre",need:[0,1,3,4,5,6],note:"Si el producto salpica, use careta en lugar de gafas simples."},
+{n:"Combustible o solvente con vapores o salpicaduras",need:[0,1,2,3,4,5,6],note:"Los vapores pueden ser inflamables y dañinos. Ubíquese con el viento a su favor, sin fuentes de fuego, y pida apoyo si el olor es fuerte."},
+{n:"Derrame en la góndola o en altura",need:[0,1,3,4,5,7],note:"Solo personal autorizado y capacitado en trabajo en altura. Si usted no lo es, no suba: avise y espere indicaciones."}];
+var ec='';ES.forEach(function(s,i){ec+='<button class="chip'+(i?'':' sel')+'" data-k="'+i+'" style="text-align:left;border-radius:12px">'+s.n+'</button>'});$('#epp-chips').innerHTML=ec;
+function renderEpp(k){var s=ES[k],o='';EP.forEach(function(e,i){var n=s.need.indexOf(i)>-1;o+='<div class="it '+(n?'need':'skip')+'"><b>'+e[0]+'</b>'+e[1]+(n?'<br><span style="color:var(--pri)">✔ Necesario</span>':'')+'</div>'});$('#epp-grid').innerHTML=o;$('#epp-note').innerHTML='<b>Nota:</b> '+s.note+' Confirme siempre con la HDS del producto.'}
+chipsSel($('#epp-chips'),renderEpp);renderEpp(0);
+
+/* ===== fauna ===== */
+var FA=[
+"Un ave, murciélago o mamífero lastimado cerca de una turbina o en un camino. Aunque parezca manso, puede morder, arañar o contagiar enfermedades. No lo recoja.",
+"Un ave o murciélago sin vida debajo de una turbina. En parques eólicos, estos hallazgos alimentan el monitoreo de fauna. No lo mueva: el lugar donde está es información importante.",
+"Una serpiente en la bodega, un nido en un equipo o un animal en el camino de los vehículos. No intente sacarlo ni asustarlo: avise para que el equipo de ambiente decida qué hacer."];
+function renderFa(k){$('#fa-ex').innerHTML='<b>Ejemplo:</b> '+FA[k]}
+chipsSel($('#fa-chips'),renderFa);renderFa(0);
+
+/* ===== monitoreos ===== */
+function blocks(a){return a.map(function(b){return '<div class="card ibox"><b class="ic">'+b[0]+'</b><div><b>'+b[1]+'</b><p style="margin:.2em 0">'+b[2]+'</p></div></div>'}).join('')}
+var MON={
+fau:{v:'fauna',x:'<h3>🦇 Monitoreo de fauna</h3>'+blocks([["❓","¿Qué es?","Personal capacitado recorre a pie el entorno de las turbinas buscando aves y murciélagos heridos o muertos."],["🎯","¿Para qué sirve?","Para saber si las aspas afectan a los animales y tomar medidas para reducirlo."],["📝","¿Qué se anota?","Dónde, cuándo, qué animal es, en qué estado está y una foto. Esos datos se reportan a las autoridades."],["🙋","¿Qué hago yo?","Si ve un animal: no lo toque, no lo mueva y avise al equipo de ambiente."]])},
+som:{v:'sombra',x:'<h3>🌓 Efecto sombra</h3>'+blocks([["❓","¿Qué es?","Cuando las aspas pasan frente al sol, su sombra parpadea sobre las casas cercanas, sobre todo al amanecer y al atardecer."],["📏","¿Cómo se vigila?","Se calcula con programas cuántas horas al año pasa, y se monitorea en las casas más cercanas, llamadas receptores."],["🎯","¿Para qué sirve?","Para evitar molestias a los vecinos. Si se pasa del límite que se definió, se aplican medidas, por ejemplo parar la turbina en esas horas."],["🙋","¿Qué hago yo?","Si un vecino le comenta algo, no prometa nada: anote lo que dice y avise al equipo de ambiente."]])},
+rui:{v:'ruido',x:'<h3>🔊 Ruido</h3>'+blocks([["❓","¿Qué es?","El sonido que producen las turbinas, la subestación y la maquinaria. Se mide en decibeles (dB)."],["📏","¿Cómo se mide?","Con un sonómetro calibrado, cerca de las casas, de día y de noche, y con buenas condiciones de viento."],["⚖️","¿Con qué se compara?","Con los límites del reglamento de ruido (Decreto 44486-S), que cambian según la zona y la hora."],["🙋","¿Qué hago yo?","No toque los equipos de medición, evite ruidos innecesarios (motores, radios) cerca de ellos y reporte ruidos anormales de una turbina."]])+'<div class="card"><h3>¿Cuánto es un decibel?</h3><div class="db" style="width:30%">30 · Susurro</div><div class="db" style="width:50%">50 · Lluvia suave</div><div class="db" style="width:62%">60 · Conversación</div><div class="db" style="width:88%;background:var(--acc)">85 · Tráfico pesado</div><p class="small">Valores de referencia. Más dB es más ruido.</p></div>'},
+agu:{v:'agua',x:'<h3>💧 Calidad del agua y macroinvertebrados</h3>'+blocks([["❓","¿Qué son los macroinvertebrados?","Animalitos sin huesos que viven en el fondo de ríos y quebradas y se ven a simple vista: larvas de insectos, caracoles y gusanos."],["🔍","¿Por qué sirven?","Algunos solo viven en agua limpia y otros aguantan la contaminación. Según cuáles aparecen, sabemos cómo está el agua."],["🧪","¿Qué más se mide?","Oxígeno, pH, temperatura, turbidez, materia orgánica y otros. La ley de calidad de aguas (Decreto 33903-MINAE-S) las clasifica en cinco clases."],["🙋","¿Qué hago yo?","Nunca eche aceite, jabón, concreto ni basura a quebradas. No lave vehículos ni herramientas en ellas. Si un derrame se acerca al agua, avise de inmediato."]])+'<div class="card"><h3>Las cinco clases</h3><div class="row" style="flex-wrap:nowrap;gap:0"><div style="flex:1;background:#2a6fb5;height:22px"></div><div style="flex:1;background:#2e8b57"></div><div style="flex:1;background:#e0c030"></div><div style="flex:1;background:#e08a1f"></div><div style="flex:1;background:#c0392b"></div></div><div class="row small" style="flex-wrap:nowrap;justify-content:space-between"><span>Excelente</span><span>Buena</span><span>Regular</span><span>Mala</span><span>Pésima</span></div></div>'}};
+function renderMon(k){
+  monK=k;if(monP){monP.stop();monP=null}
+  var m=MON[k];$('#mon-body').innerHTML='<div id="mon-v"></div>'+m.x;
+  monP=new Player($('#mon-v'),m.v);if(S[cur].id==='monitoreos')monP.start();
+}
+chipsSel($('#mon-chips'),renderMon);
+
+/* ===== examen ===== */
+var Q=[
+["Residuos","¿Quién tiene que clasificar los residuos?","Cada persona que los genera, en el lugar donde los genera","Solo el personal de limpieza","Solo el almacén","La ley dice que la responsabilidad es del generador y debe clasificar desde la fuente.","A"],
+["Residuos","Va a entregar un residuo peligroso en la bodega. ¿Cómo debe llegar?","Clasificado, rotulado y pesado","Solo en una bolsa, sin etiqueta","Mezclado con los demás residuos","Esos tres requisitos son obligatorios. Después se coloca el marchamo y se registra en la app.","A"],
+["Residuos","No hay personal de almacén para recibir su residuo peligroso. ¿Qué hace?","Acude al equipo de Medio Ambiente","Lo deja en la puerta de la bodega","Lo guarda en su carro","Si no hay personal de almacén, se acude al equipo de Medio Ambiente.","A"],
+["Colores","Un trapo con aceite de la multiplicadora va en el recipiente…","Rojo (peligrosos)","Negro (ordinarios)","Gris (papel y cartón)","Todo lo que tuvo contacto con aceite es residuo peligroso. En nuestros parques se entrega en el almacén con el protocolo de residuos peligrosos.","E"],
+["Colores","Una lata de atún vacía va en el recipiente…","Amarillo (aluminio, latón y latas de conserva)","Azul (envases)","Negro (ordinarios)","Las latas de conserva van en el amarillo, con el aluminio y el latón.","A"],
+["Colores","Una llanta usada de una camioneta es un residuo…","De manejo especial (café)","Orgánico (verde)","Ordinario (negro)","Las llantas usadas son de manejo especial.","A"],
+["Derrames","Según el protocolo, cuando hay un derrame usted debe…","Empezar a atender el derrame y, a la vez, avisar a su jefatura y al equipo de gestión ambiental","Terminar de limpiar y avisar al final","Avisar y no hacer nada hasta que lleguen","Atender y reportar ocurren al mismo tiempo.","A"],
+["Derrames","Hay viento fuerte y se derramó aceite en la tierra. ¿Qué precaución toma?","Sabe que el adsorbente puede dispersarse; usa pads y barreras y consulta al equipo ambiental","Echa adsorbente sin preocuparse","Espera a que el viento lo seque","Con viento fuerte el adsorbente puede dispersarse y no funcionar bien.","A"],
+["EPP","¿Dónde dice la hoja de seguridad (HDS) qué EPP usar?","En la sección 8","En el nombre del producto","En el color del envase","La sección 8 de la HDS indica los controles y el EPP.","A"],
+["EPP","Hay un derrame de aceite dentro de la góndola. ¿Quién puede subir?","Solo personal autorizado y capacitado para trabajo en altura","Cualquier persona con ganas de ayudar","El que llegue primero","Trabajar en altura exige autorización y capacitación.","E"],
+["Derrames","Se derramó aceite sobre lastre o tierra. Lo ideal para empezar es…","Adsorbente de algas (y pads si la fuga sigue)","Lavar con agua a presión","Tapar con cemento","En superficie porosa lo ideal es el adsorbente de algas. Después se limpia con bioremediador.","A"],
+["Derrames","Si el derrame es de más de 200 litros, además se debe…","Hacer análisis de suelo y, si hay filtración sobre lo permitido, remediar o excavar y enviar a un gestor autorizado","Dejarlo secar al sol","Taparlo con tierra y no avisar","Los derrames grandes exigen análisis de suelo y remediación o retiro del material contaminado.","A"],
+["Fauna","Encuentra un murciélago herido debajo de una turbina. ¿Qué hace?","No lo toca ni lo mueve y avisa al equipo de ambiente","Lo recoge y lo lleva a su casa","Lo cambia de lugar para que no lo pisen","No se toca ni se mueve. Solo se comunica el hallazgo.","E"],
+["Flora","Un árbol estorba en el camino del parque. ¿Qué hace?","Avisa: cortarlo exige permiso","Lo corta con la motosierra","Lo quema","Cortar árboles requiere permiso, según la Ley Forestal.","A"],
+["Monitoreos","El efecto sombra es…","La sombra de las aspas que parpadea sobre casas cercanas","El ruido de las aspas","Aceite en el suelo","Ocurre cuando las aspas pasan frente al sol.","E"],
+["Monitoreos","El ruido de un parque eólico se vigila…","Con un sonómetro cerca de las casas, comparando con el límite del reglamento","Preguntando a los vecinos solamente","No se vigila","Se mide en decibeles y se compara con el Decreto 44486-S.","E"],
+["Monitoreos","En una quebrada aparecen muchos tipos de macroinvertebrados, incluso los delicados. Eso indica…","Agua de mejor calidad","Agua muy contaminada","Que no sirve el estudio","Los delicados solo viven en agua limpia.","A"],
+["Legislación","Antes de construir un parque se necesita…","La viabilidad ambiental de SETENA","Solo el permiso del vecino","Nada, se puede construir primero","SETENA otorga la viabilidad ambiental después de evaluar el impacto.","A"],
+["Aspectos","Una fuga de aceite de la multiplicadora es un…","Aspecto ambiental (el impacto sería el suelo contaminado)","Impacto positivo","Residuo ordinario","El aspecto es lo que puede tocar el ambiente. El impacto es el daño que causa.","E"],
+["Aspectos","En un parque solar, quitar la vegetación para instalar los paneles puede causar…","Pérdida de plantas y de refugio de animales","Más lluvia","Más viento","Por eso se limita el área y se revegeta.","S"],
+["SGA","En Costa Rica, ¿qué exige el Decreto 40457-S (RTCR 481:2015)?","Que los productos químicos peligrosos tengan etiqueta en español con pictogramas del SGA","Que los bidones se pinten de rojo","Que solo se etiqueten los productos importados","La etiqueta en español, con pictogramas y demás elementos del SGA, es obligatoria.","A"],
+["SGA","Ve un rombo con borde rojo y una llama en la etiqueta. Significa que el producto es…","Inflamable","Corrosivo","Peligroso solo para el agua","La llama avisa que el producto se prende fácilmente con chispas o calor.","A"],
+["Fichas","Según las fichas de emergencia, los aceites usados, las grasas y los filtros de aceite se guardan…","En un lugar fresco y ventilado, bajo techo, lejos del calor y sin contacto con agua","Al sol y a la intemperie","Junto a oxidantes fuertes y ácidos","Las fichas piden almacenarlos ventilados, no a la intemperie, lejos de fuentes de ignición y del agua.","A"],
+["Fichas","En un accidente con un residuo peligroso, lo primero que dice la ficha de emergencia es…","Llamar al 9-1-1","Esperar a que se seque","Lavarlo con agua a presión","Luego se aleja al personal no autorizado y se aísla el área.","A"],
+["Fichas","Una ficha dice ONU 3082 y clase 9. Eso indica que el residuo es…","Peligroso para el medio ambiente","Un gas inflamable","Un explosivo","La clase 9 con ONU 3077 o 3082 corresponde a sustancias peligrosas para el medio ambiente.","E"],
+["Aspectos","En un parque eólico, abrir caminos y plataformas puede causar…","Pérdida de plantas y erosión","Fugas de gas","Más lluvia","Por eso se trabaja solo en el área autorizada, con drenajes, y se revegeta.","E"],
+["Colores","Un trapo con aceite de un transformador o inversor va en el recipiente…","Rojo (peligrosos)","Negro (ordinarios)","Gris (papel y cartón)","Todo lo que tuvo contacto con aceite es residuo peligroso. En nuestros parques se entrega en el almacén con el protocolo de residuos peligrosos.","S"],
+["EPP","Hay un derrame de aceite en un transformador con energía. ¿Qué hace?","No se acerca, avisa de inmediato y solo personal autorizado interviene","Lo limpia con un trapo mojado","Apaga el transformador usted mismo","Los equipos con energía solo los atiende personal autorizado. Usted avisa de inmediato.","S"],
+["Fauna","Ve una serpiente herida dentro del área de los paneles solares. ¿Qué hace?","No la toca ni la mueve y avisa al equipo de ambiente","La agarra con un palo y la saca","La mata","No se toca ni se mueve. Solo se comunica el hallazgo.","S"],
+["Aspectos","¿Qué es el deslumbramiento en un parque solar?","El reflejo de la luz del sol en los paneles, que molesta la vista","El calor que sale de los paneles","Los residuos de los inversores","Se controla con el diseño y la orientación de los paneles.","S"],
+["Aspectos","Al limpiar los paneles solares, se debe evitar…","Echar el agua con detergente a una quebrada","Usar la menor cantidad de agua posible","Ponerse el EPP","El detergente y el agua de limpieza no deben llegar a cauces.","S"],
+["Aspectos","Una fuga de aceite de un transformador es un…","Aspecto ambiental (el impacto sería el suelo contaminado)","Impacto positivo","Residuo ordinario","El aspecto es lo que puede tocar el ambiente. El impacto es el daño que causa.","S"],
+["Colores","Un panel solar dañado o roto, ¿qué debe hacer?","No lo rompe más y avisa al equipo ambiental","Lo tira en el recipiente negro","Lo entierra","Los paneles dañados son de manejo especial y no se rompen: se avisa al equipo ambiental.","S"]];
+var QA=Q.filter(function(x){return x[6]==='A'}),N_OK=Math.ceil(QA.length*0.8);
+function setQuiz(){var t=(P&&P.tipo==='Solar')?'S':'E';QA=Q.filter(function(x){return x[6]==='A'||x[6]===t});N_OK=Math.ceil(QA.length*0.8);$('#qinfo').textContent=QA.length+' preguntas de proyectos '+(t==='S'?'solares':'eólicos')+'. Se aprueba con 80% o más: '+N_OK+' buenas';quizScore=null;qStart()}
+$('#qinfo').textContent=QA.length+' preguntas. Se aprueba con 80% o más: '+N_OK+' buenas';
+var qz={i:0,sc:0,q:[]};
+function shuffle(a){return a.slice().sort(function(){return Math.random()-.5})}
+function qStart(){qz.i=0;qz.sc=0;qz.q=QA.map(function(x){return {t:x[0],q:x[1],o:shuffle([[x[2],1],[x[3],0],[x[4],0]]),e:x[5]}});qz.q=shuffle(qz.q);qShow()}
+function qShow(){
+  var b=$('#qz');
+  if(qz.i>=qz.q.length){
+    quizScore=qz.sc;var pass=qz.sc>=N_OK;
+    if(pass&&!REC)issue();enviarResultado(pass);
+    b.innerHTML='<div class="card" style="text-align:center"><div class="big">'+(pass?'🏆':'📚')+'</div><h3>'+qz.sc+' de '+qz.q.length+' correctas</h3><p>'+(pass?'¡Aprobó! Ya puede ver su certificado con código QR.':'Necesita '+N_OK+' (80%) para aprobar. Repase los temas y vuelva a intentarlo.')+'</p><div class="row" style="justify-content:center"><button class="btn" id="qr1">Reintentar</button><button class="btn pri" id="qn">'+(pass?'Ver mi certificado →':'Repasar')+'</button></div></div>';
+    if(WEBHOOK_URL)b.querySelector('.card').insertAdjacentHTML('beforeend','<p class="small">📨 Su resultado se envía al equipo de gestión ambiental.</p>');$('#qr1').onclick=qStart;$('#qn').onclick=function(){go(pass?S.length-1:2)};return}
+  var q=qz.q[qz.i],o='<p class="small">Pregunta '+(qz.i+1)+' de '+qz.q.length+' · '+q.t+'</p><div class="prog" style="margin:6px 0 12px"><i style="width:'+(qz.i/qz.q.length*100)+'%"></i></div><h3>'+q.q+'</h3>';
+  q.o.forEach(function(t,j){o+='<button class="opt" data-j="'+j+'">'+t[0]+'</button>'});
+  b.innerHTML=o+'<div id="qf"></div>';
+  $$('#qz .opt').forEach(function(btn){btn.onclick=function(){
+    var ok=q.o[+btn.dataset.j][1]===1;if(ok)qz.sc++;
+    $$('#qz .opt').forEach(function(x){x.disabled=true;if(q.o[+x.dataset.j][1]===1)x.classList.add('ok')});if(!ok)btn.classList.add('no');
+    $('#qf').innerHTML='<div class="fb '+(ok?'ok':'no')+'"><b>'+(ok?'¡Correcto!':'No exactamente.')+'</b> '+q.e+'</div><button class="btn pri" id="qx">'+(qz.i===qz.q.length-1?'Ver resultado':'Siguiente →')+'</button>';
+    $('#qx').onclick=function(){qz.i++;qShow();$('#main').scrollTop=0}}});
+}
+qStart();
+
+/* ===== certificado y trazabilidad ===== */
+var CORREO_DESTINO='cesar.suarez@somoscmi.com';
+/* Dirección de la aplicación web de Apps Script (termina en /exec). Péguela aquí o use ?envio=DIRECCIÓN en el enlace. */
+var WEBHOOK_URL='';
+try{var _q=(location.search.match(/[?&]envio=([^&]+)/)||[])[1];if(_q)WEBHOOK_URL=decodeURIComponent(_q)}catch(e){}
+var intento=0;
+function certHtml(r,qr){return '<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Certificado '+esc(r.cod)+'</title><style>body{font-family:system-ui,Arial,sans-serif;max-width:640px;margin:20px auto;padding:20px;border:4px double #1b7a4b;border-radius:16px;text-align:center}table{width:100%;text-align:left;border-collapse:collapse}td{padding:5px;border-bottom:1px solid #ccc}td:first-child{color:#555;width:36%}.q{width:200px;margin:12px auto}.c{font:700 17px monospace;background:#eef3ef;padding:8px;border-radius:8px;word-break:break-all}</style></head><body><div style="font-size:48px">🌿</div><h2>Certificado de Inducción Ambiental CMI</h2><p>Parques eólicos y solares</p><h1>'+esc(r.nom)+'</h1>'+certTable(r)+'<div class="q">'+qr+'</div><p>Código de trazabilidad</p><div class="c">'+esc(r.cod)+'</div><p>Verificación: '+r.ver+'</p></body></html>';}
+function nowStr(){var n=new Date();return n.getFullYear()+'-'+p2(n.getMonth()+1)+'-'+p2(n.getDate())+' '+p2(n.getHours())+':'+p2(n.getMinutes())}
+function enviarResultado(pass){
+  if(!WEBHOOK_URL||!P)return;intento++;
+  var d={nombre:P.nom,doc:P.dt+' '+P.id,empresa:P.emp,planta:P.pla,tipo:P.tipo,sede:P.sede,nota:qz.sc,total:QA.length,pct:Math.round(qz.sc/QA.length*100),aprobado:!!pass,fecha:nowStr(),intento:intento};
+  function enviar(){try{fetch(WEBHOOK_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)}).catch(function(){})}catch(e){}}
+  if(pass&&REC){d.codigo=REC.cod;d.vence=REC.ven;d.ver=REC.ver;d.qr=payload(REC);ensureQR(function(ok){var qr='';try{if(ok)qr=qrSvg(d.qr)}catch(e){}d.certHtml=certHtml(REC,qr);enviar()})}else enviar();
+}
+function h32(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)>>>0}return h>>>0}
+function b36(n,l){var s=n.toString(36).toUpperCase();while(s.length<l)s='0'+s;return s.slice(-l)}
+function p2(n){return (n<10?'0':'')+n}
+function ver(body){return b36(h32(body+'|IA2026'),6)}
+function body(r){return ['INDUCCION AMBIENTAL CMI','COD:'+r.cod,'NOM:'+r.nom,'DOC:'+r.dt+' '+r.id,'EMP:'+r.emp,'PLA:'+r.pla,'PROY:'+r.tipo,'SEDE:'+r.sede,'NOTA:'+r.nota+'/'+QA.length+' ('+r.pct+'%)','FEC:'+r.fec,'VEN:'+r.ven].join('\n')}
+function payload(r){var b=body(r);return b+'\nVER:'+ver(b)}
+function issue(){
+  if(!P)return;
+  var n=new Date(),y=n.getFullYear(),fec=y+'-'+p2(n.getMonth()+1)+'-'+p2(n.getDate())+' '+p2(n.getHours())+':'+p2(n.getMinutes());
+  var ymd=(''+y).slice(2)+p2(n.getMonth()+1)+p2(n.getDate());
+  var seed=[P.nom,P.id,P.emp,P.pla,P.tipo,P.sede,n.toISOString(),Math.random()].join('|');
+  var cod=['IA',(P.tipo==='Solar'?'S':'E')+(P.sede==='Tilarán'?'TIL':'LIB'),P.empC,P.plaC,ymd,b36(h32(seed),5)+b36(Math.floor(Math.random()*46656),3)].join('-');
+  REC={cod:cod,nom:P.nom,dt:P.dt,id:P.id,emp:P.emp,pla:P.pla,tipo:P.tipo,sede:P.sede,nota:quizScore,pct:Math.round(quizScore/QA.length*100),fec:fec};
+  var vd=new Date(n.getTime());vd.setFullYear(y+1);REC.ven=vd.getFullYear()+'-'+p2(vd.getMonth()+1)+'-'+p2(vd.getDate());REC.ver=ver(body(REC));passed=true;
+  try{var a=JSON.parse(localStorage.getItem('ia_reg_v1')||'[]');a.push(REC);localStorage.setItem('ia_reg_v1',JSON.stringify(a))}catch(e){}
+  useCap('user').then(function(u){if(!u||!u.id)return;return u.id().then(function(uid){return useCap('db').then(function(db){if(db&&uid){try{db.doc('inducciones/'+uid+'/registros/'+REC.cod).set(REC).catch(function(){})}catch(e){}}})})}).catch(function(){});
+}
+function dlBlob(name,data,type){try{var b=new Blob([data],{type:type||'text/plain'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);return true}catch(e){return false}}
+function useCap(n){try{if(window.claude&&window.claude.use)return window.claude.use(n).catch(function(){return null})}catch(e){}return Promise.resolve(null)}
+function regList(){try{return JSON.parse(localStorage.getItem('ia_reg_v1')||'[]')}catch(e){return []}}
+function ensureQR(cb){
+  if(window.qrcode)return cb(true);
+  var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js';
+  s.onload=function(){cb(!!window.qrcode)};s.onerror=function(){cb(false)};document.head.appendChild(s);
+}
+function qrSvg(text){
+  var q=window.qrcode(0,'M');q.addData(text);q.make();var n=q.getModuleCount(),d='';
+  for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))d+='M'+(c+4)+' '+(r+4)+'h1v1h-1z';
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+8)+' '+(n+8)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+d+'" fill="#000"/></svg>';
+}
+function certTable(r){return '<table><tr><td>Documento</td><td>'+esc(r.dt)+' '+esc(r.id)+'</td></tr><tr><td>Empresa</td><td>'+esc(r.emp)+'</td></tr><tr><td>Planta</td><td>'+esc(r.pla)+'</td></tr><tr><td>Proyecto</td><td>'+esc(r.tipo)+'</td></tr><tr><td>Sede</td><td>'+esc(r.sede)+'</td></tr><tr><td>Resultado</td><td>'+r.nota+' de '+QA.length+' ('+r.pct+'%)</td></tr><tr><td>Fecha</td><td>'+esc(r.fec)+'</td></tr><tr><td>Válido hasta</td><td><b>'+esc(r.ven||'')+'</b></td></tr></table>'}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function renderCert(){
+  var z=$('#cert-zone');
+  $('#rg-n').innerHTML='<b>'+regList().length+'</b> certificados en este dispositivo';
+  if(!passed||!REC){
+    z.innerHTML='<div class="card"><h3>🏅 Su certificado</h3><p>'+(quizScore===null?'Complete el examen final para obtener su certificado con código QR.':'Su resultado fue '+quizScore+' de '+QA.length+'. Necesita '+N_OK+' (80%) para aprobar.')+'</p><button class="btn pri" id="gq">Ir al examen</button></div>';
+    $('#gq').onclick=function(){go(S.length-2)};return}
+  var r=REC;
+  z.innerHTML='<div class="cert" id="cert"><div class="big">🌿</div><h3>Certificado de Inducción Ambiental CMI</h3><p class="small">Parques eólicos y solares</p><h2>'+esc(r.nom)+'</h2>'+certTable(r)+'<div class="qr" id="qr"></div><div class="small">Código de trazabilidad</div><div class="code">'+esc(r.cod)+'</div><p class="small">Verificación: '+r.ver+'</p></div><div class="row noprint"><button class="btn pri" id="c-dl">⬇️ Descargar certificado</button><button class="btn" id="c-pr">🖨️ Imprimir</button></div><div class="call noprint" style="margin-top:12px"><b>Para que su certificado sea válido:</b> envíelo por correo al equipo de gestión ambiental, que lo valida. El certificado <b>vence un año después</b> de emitido (hasta '+esc(r.ven)+').<div class="row" style="margin-top:8px"><button class="btn pri" id="c-em">✉️ Enviar por correo</button><button class="btn" id="c-cp">📋 Copiar texto</button></div><p class="small" id="c-ms"></p></div>';
+  ensureQR(function(ok){var el=$('#qr');if(!el)return;if(ok){try{el.innerHTML=qrSvg(payload(r))}catch(e){el.innerHTML='<p class="small">No se pudo generar el QR. Use el código.</p>'}}else{el.innerHTML='<p class="small">No se pudo cargar el generador de QR. Use el código.</p>'}});
+  $('#c-pr').onclick=function(){try{window.print()}catch(e){}};
+  function mensaje(){return 'Adjunto mi certificado de Inducción Ambiental CMI para su validación.\n\n'+payload(r)}
+  $('#c-em').onclick=function(){
+    var a=document.createElement('a');a.href='mailto:'+CORREO_DESTINO+'?subject='+encodeURIComponent('Certificado de Inducción Ambiental CMI '+r.cod)+'&body='+encodeURIComponent(mensaje());a.target='_top';document.body.appendChild(a);a.click();a.remove();
+    $('#c-ms').textContent='Si no se abrió su correo, toque “Copiar texto” y péguelo en un correo nuevo.';
+  };
+  $('#c-cp').onclick=function(){
+    var t=mensaje(),ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();var ok=false;try{ok=document.execCommand('copy')}catch(e){}ta.remove();
+    if(!ok&&navigator.clipboard){navigator.clipboard.writeText(t).then(function(){$('#c-ms').textContent='Texto copiado. Péguelo en un correo.'},function(){$('#c-ms').textContent='No se pudo copiar. Tome una captura del certificado.'});return}
+    $('#c-ms').textContent=ok?'Texto copiado. Péguelo en un correo nuevo.':'No se pudo copiar. Tome una captura del certificado.';
+  };
+  $('#c-dl').onclick=function(){
+    ensureQR(function(ok){
+      var qr='';try{if(ok)qr=qrSvg(payload(r))}catch(e){}
+      var h=certHtml(r,qr);
+      useCap('downloads').then(function(d){if(d){d.save({filename:'certificado-'+r.cod+'.html',data:h}).catch(function(){})}else{if(!dlBlob('certificado-'+r.cod+'.html',h,'text/html'))alert('Tome una captura de pantalla de su certificado.')}});
+    });
+  };
+}
+
+/* ===== verificador y registro ===== */
+$('#vf-go').onclick=function(){
+  var t=$('#vf-t').value.trim(),o=$('#vf-r');if(!t){o.innerHTML='';return}
+  if(/VER:/.test(t)){
+    var lines=t.split(/\r?\n/).map(function(x){return x.trim()}).filter(Boolean),vi=-1,m={};
+    lines.forEach(function(l,i){var k=l.indexOf(':');if(k>0){m[l.slice(0,k)]=l.slice(k+1)}if(/^VER:/.test(l))vi=i});
+    var b=lines.slice(0,vi).join('\n'),ok=ver(b)===m.VER,vig='';if(m.VEN){var vd2=new Date(m.VEN+'T23:59:59');if(!isNaN(vd2)){vig=(new Date()>vd2)?'<div class="fb no"><b>⚠️ Certificado vencido</b> (válido hasta '+esc(m.VEN)+'). Debe repetir la inducción.</div>':'<div class="fb ok"><b>✅ Vigente</b> hasta '+esc(m.VEN)+'.</div>'}}
+    o.innerHTML='<div class="fb '+(ok?'ok':'no')+'"><b>'+(ok?'✅ Los datos coinciden con el código de verificación.':'❌ Los datos no coinciden: el texto fue cambiado o está incompleto.')+'</b></div>'+vig+(m.COD?'<p class="small">Código: '+esc(m.COD)+'<br>Nombre: '+esc(m.NOM||'')+'<br>Documento: '+esc(m.DOC||'')+'<br>Empresa: '+esc(m.EMP||'')+' · Planta: '+esc(m.PLA||'')+'<br>Proyecto: '+esc(m.PROY||'')+' · Sede: '+esc(m.SEDE||'')+'<br>Resultado: '+esc(m.NOTA||'')+'<br>Fecha: '+esc(m.FEC||'')+' · Vence: '+esc(m.VEN||'—')+'</p>':'');
+  }else{
+    var f=regList().filter(function(x){return x.cod===t.toUpperCase()})[0];
+    o.innerHTML=f?'<div class="fb ok"><b>✅ Código encontrado en este dispositivo.</b></div><p class="small">'+esc(f.nom)+' · '+esc(f.dt)+' '+esc(f.id)+'<br>'+esc(f.emp)+' · '+esc(f.pla)+' · '+esc(f.tipo)+' · '+esc(f.sede)+'<br>'+f.nota+'/'+QA.length+' · '+esc(f.fec)+' · vence '+esc(f.ven||'—')+'</p>':'<div class="fb no"><b>No se encontró en este dispositivo.</b> Puede estar en el registro central o en otro equipo. Para validar con certeza, pegue el texto completo del QR.</div>';
+  }
+};
+function csv(){
+  var a=regList(),h=['codigo','fecha','nombre','tipo_documento','documento','empresa','planta','proyecto','sede','nota','porcentaje','vence','verificacion'];
+  function q(v){return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'}
+  return '\ufeff'+[h.join(',')].concat(a.map(function(r){return [r.cod,r.fec,r.nom,r.dt,r.id,r.emp,r.pla,r.tipo,r.sede,r.nota,r.pct,r.ven,r.ver].map(q).join(',')})).join('\n');
+}
+$('#rg-dl').onclick=function(){
+  if(!regList().length){alert('Todavía no hay certificados en este dispositivo.');return}
+  useCap('downloads').then(function(d){if(d){d.save({filename:'registro-inducciones.csv',data:csv()}).catch(function(){})}else{if(!dlBlob('registro-inducciones.csv',csv(),'text/csv')){var t=$('#rg-t');t.style.display='block';t.value=csv();t.select()}}});
+};
+$('#rg-cp').onclick=function(){var t=$('#rg-t');t.style.display='block';t.value=csv();t.select();try{if(navigator.clipboard)navigator.clipboard.writeText(t.value)}catch(e){}};
+
+/* ===== arranque ===== */
+go(0);
+})();
+</script>
+</body>
+</html>
